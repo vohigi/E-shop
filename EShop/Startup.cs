@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using EShop.Data;
+using EShop.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -17,6 +18,8 @@ namespace EShop
 {
     public class Startup
     {
+        
+        
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -35,15 +38,17 @@ namespace EShop
                     Configuration.GetConnectionString("EShopDb"), 
                     b => b.MigrationsAssembly("EShop")));
             services.AddDatabaseDeveloperPageExceptionFilter();
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<IdentityContext>();
             services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IdentityContext identityContext, ShopContext shopContext)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IdentityContext identityContext, 
+            ShopContext shopContext, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
         {
+            InitDb(identityContext, shopContext);
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -55,8 +60,7 @@ namespace EShop
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-            identityContext.Database.Migrate();
-            shopContext.Database.Migrate();
+            
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
@@ -67,6 +71,14 @@ namespace EShop
 
             app.UseEndpoints(endpoints =>
             { endpoints.MapRazorPages(); });
+        }
+
+        private static void InitDb(IdentityContext identityContext, ShopContext shopContext)
+        {
+            identityContext.Database.Migrate();
+            shopContext.Database.Migrate();
+
+            RoleInitializer.AdministratorInitialize(identityContext);
         }
     }
 }
