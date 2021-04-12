@@ -32,13 +32,13 @@ namespace EShop
         {
             services.AddDbContext<IdentityContext>(options =>
                 options.UseNpgsql(
-                    Configuration.GetConnectionString("IdentityDb")));
+                    Configuration.GetConnectionString("IdentityDb"), b => b.MigrationsAssembly("EShop")));
             services.AddDbContext<ShopContext>(options =>
                 options.UseNpgsql(
                     Configuration.GetConnectionString("EShopDb"), 
                     b => b.MigrationsAssembly("EShop")));
             services.AddDatabaseDeveloperPageExceptionFilter();
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddDefaultIdentity<ApplicationUser>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<IdentityContext>();
             services.AddRazorPages();

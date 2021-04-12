@@ -30,7 +30,7 @@ namespace EShop.Identity
             });
             //create user for that role 
             var userId = Guid.NewGuid().ToString();
-            context.Users.Add(new IdentityUser
+            context.Users.Add(new ApplicationUser
             {
                 Id = userId,
                 UserName = adminEmail.ToLower(),

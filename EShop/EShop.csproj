@@ -18,4 +18,15 @@
       <ProjectReference Include="..\EShop.Identity\EShop.Identity.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Remove="Pages\Shared\_StatusMessage.cshtml" />
+      <Content Remove="Pages\Administration\_ValidationScriptsPartial.cshtml" />
+      <Content Remove="Pages\Administration\_ManageNav.cshtml" />
+      <Content Remove="Pages\Administration\_Layout.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Pages\Administration\ManageNavPages.cs" />
+    </ItemGroup>
+
 </Project>

@@ -9,6 +9,7 @@ namespace EShop.Data
 {
     public class IdentityContext : IdentityDbContext
     {
+        public DbSet<ApplicationUser> Users { get; set; }
         public IdentityContext(DbContextOptions<IdentityContext> options)
             : base(options)
         {
