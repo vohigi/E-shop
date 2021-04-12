@@ -1,4 +1,4 @@
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -9,16 +9,16 @@ using Microsoft.Extensions.Logging;
 namespace EShop.Areas.Identity.Pages.Administration
 {
     [Authorize(Roles = "Administration")]
-    public class CreateAdministrator : PageModel
+    public class CreateAdministratorModel : PageModel
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly ILogger<CreateAdministrator> _logger;
+        private readonly ILogger<CreateAdministratorModel> _logger;
 
-        public CreateAdministrator(
+        public CreateAdministratorModel(
             UserManager<IdentityUser> userManager,
             SignInManager<IdentityUser> signInManager,
-            ILogger<CreateAdministrator> logger)
+            ILogger<CreateAdministratorModel> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -29,6 +29,9 @@ namespace EShop.Areas.Identity.Pages.Administration
         public InputModel Input { get; set; }
 
         public string ReturnUrl { get; set; }
+        
+        [TempData]
+        public string StatusMessage { get; set; }
 
         public class InputModel
         {
@@ -51,6 +54,7 @@ namespace EShop.Areas.Identity.Pages.Administration
 
         public async Task OnGetAsync(string returnUrl = null)
         {
+            StatusMessage = null;
             ReturnUrl = returnUrl;
         }
         
@@ -61,20 +65,20 @@ namespace EShop.Areas.Identity.Pages.Administration
             {
                 var user = new IdentityUser { UserName = Input.Email, Email = Input.Email };
                 var result = await _userManager.CreateAsync(user, Input.Password);
-                await _userManager.AddToRoleAsync(user, "Administration");
+                
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    await _userManager.AddToRoleAsync(user, "Administration");
+                    StatusMessage = $"Administrator created with email {Input.Email}";
+                    _logger.LogInformation($"Administrator created with email {Input.Email}.");
                     
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    return LocalRedirect(returnUrl);
+                    return Page();
                 }
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
-
             // If we got this far, something failed, redisplay form
             return Page();
         }
