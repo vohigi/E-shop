@@ -1,4 +1,5 @@
 ﻿using EShop.Data.Entities;
+using EShop.Identity.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace EShop.Data
@@ -15,6 +16,7 @@ namespace EShop.Data
         public DbSet<OrderEntity> Orders { get; set; }
         public DbSet<CategoryEntity> Categories { get; set; }
         public DbSet<CategoryToItemLinkEntity> CategoryToItemLinks { get; set; }
+        public DbSet<FeedbackEntity> Feedbacks { get; set; }
         
         public ShopContext(DbContextOptions<ShopContext> options)
             : base(options)
@@ -27,6 +29,7 @@ namespace EShop.Data
 
             modelBuilder.ApplyConfiguration(new CategoryToItemLinkEntityConfiguration());
             modelBuilder.ApplyConfiguration(new SpecToItemLinkEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new FeedbackEntityConfiguration());
         }
     }
 }

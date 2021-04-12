@@ -46,7 +46,7 @@ namespace EShop
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IdentityContext identityContext, 
-            ShopContext shopContext, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+            ShopContext shopContext)
         {
             InitDb(identityContext, shopContext);
             if (env.IsDevelopment())
