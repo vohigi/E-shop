@@ -7,7 +7,7 @@ namespace EShop.Data.Entities
     public class CategoryToItemLinkEntity
     {
         public Guid ItemId { get; set; }
-        public ItemEntity Item { get; set; }
+        public ProductEntity Item { get; set; }
         public Guid CategoryId { get; set; }
         public CategoryEntity Category { get; set; }
     }

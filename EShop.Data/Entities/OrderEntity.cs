@@ -25,17 +25,17 @@ namespace EShop.Data.Entities
                 .WithMany()
                 .HasForeignKey(x => x.ShippingTypeId)
                 .HasPrincipalKey(x => x.Id)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
             builder.HasOne(x => x.PaymentType)
                 .WithMany()
                 .HasForeignKey(x => x.PaymentTypeId)
                 .HasPrincipalKey(x => x.Id)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
             builder.HasOne(x => x.ShoppingCart)
                 .WithMany()
                 .HasForeignKey(x => x.ShoppingCartId)
                 .HasPrincipalKey(x => x.Id)
-                .OnDelete(DeleteBehavior.Restrict);
+                .OnDelete(DeleteBehavior.NoAction);
         }
     } 
 }

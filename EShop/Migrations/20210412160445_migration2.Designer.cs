@@ -3,15 +3,17 @@ using System;
 using EShop.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace EShop.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    partial class ShopContextModelSnapshot : ModelSnapshot
+    [Migration("20210412160445_migration2")]
+    partial class migration2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,9 +28,7 @@ namespace EShop.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasDefaultValueSql("now()::timestamp(0) at time zone 'utc'");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid?>("ItemId")
                         .HasColumnType("uuid");
@@ -58,9 +58,7 @@ namespace EShop.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasDefaultValueSql("now()::timestamp(0) at time zone 'utc'");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("LastUpdatedAt")
                         .HasColumnType("timestamp without time zone");
@@ -88,31 +86,6 @@ namespace EShop.Migrations
                     b.ToTable("CategoryToItemLinks");
                 });
 
-            modelBuilder.Entity("EShop.Data.Entities.ImageEntity", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<byte[]>("ImageData")
-                        .HasColumnType("bytea");
-
-                    b.Property<DateTime?>("LastUpdatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<Guid>("ProductId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("Images");
-                });
-
             modelBuilder.Entity("EShop.Data.Entities.OrderEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -120,9 +93,7 @@ namespace EShop.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasDefaultValueSql("now()::timestamp(0) at time zone 'utc'");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<Guid>("CustomerId")
                         .HasColumnType("uuid");
@@ -160,9 +131,7 @@ namespace EShop.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasDefaultValueSql("now()::timestamp(0) at time zone 'utc'");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
@@ -185,9 +154,7 @@ namespace EShop.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasDefaultValueSql("now()::timestamp(0) at time zone 'utc'");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
@@ -206,7 +173,7 @@ namespace EShop.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Products");
+                    b.ToTable("Items");
                 });
 
             modelBuilder.Entity("EShop.Data.Entities.ShippingTypeEntity", b =>
@@ -216,9 +183,7 @@ namespace EShop.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasDefaultValueSql("now()::timestamp(0) at time zone 'utc'");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
@@ -244,9 +209,7 @@ namespace EShop.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasDefaultValueSql("now()::timestamp(0) at time zone 'utc'");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("LastUpdatedAt")
                         .HasColumnType("timestamp without time zone");
@@ -266,9 +229,7 @@ namespace EShop.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasDefaultValueSql("now()::timestamp(0) at time zone 'utc'");
+                        .HasColumnType("timestamp without time zone");
 
                     b.Property<DateTime?>("LastUpdatedAt")
                         .HasColumnType("timestamp without time zone");
@@ -311,8 +272,7 @@ namespace EShop.Migrations
                 {
                     b.HasOne("EShop.Data.Entities.ProductEntity", "Item")
                         .WithMany()
-                        .HasForeignKey("ItemId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("ItemId");
 
                     b.HasOne("EShop.Data.Entities.ShoppingCartEntity", null)
                         .WithMany("CartItems")
@@ -340,33 +300,20 @@ namespace EShop.Migrations
                     b.Navigation("Item");
                 });
 
-            modelBuilder.Entity("EShop.Data.Entities.ImageEntity", b =>
-                {
-                    b.HasOne("EShop.Data.Entities.ProductEntity", "Product")
-                        .WithMany("Images")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
             modelBuilder.Entity("EShop.Data.Entities.OrderEntity", b =>
                 {
                     b.HasOne("EShop.Data.Entities.PaymentTypeEntity", "PaymentType")
                         .WithMany()
-                        .HasForeignKey("PaymentTypeId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .HasForeignKey("PaymentTypeId");
 
                     b.HasOne("EShop.Data.Entities.ShippingTypeEntity", "ShippingType")
                         .WithMany()
-                        .HasForeignKey("ShippingTypeId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .HasForeignKey("ShippingTypeId");
 
                     b.HasOne("EShop.Data.Entities.ShoppingCartEntity", "ShoppingCart")
                         .WithMany()
                         .HasForeignKey("ShoppingCartId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("PaymentType");
@@ -414,8 +361,6 @@ namespace EShop.Migrations
             modelBuilder.Entity("EShop.Data.Entities.ProductEntity", b =>
                 {
                     b.Navigation("CategoryToItemLinks");
-
-                    b.Navigation("Images");
 
                     b.Navigation("SpecToItemLinks");
                 });
