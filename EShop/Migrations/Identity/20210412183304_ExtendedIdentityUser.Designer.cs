@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EShop.Migrations.Identity
 {
     [DbContext(typeof(IdentityContext))]
-    [Migration("20210412180119_ExtendedIdentityUser2")]
-    partial class ExtendedIdentityUser2
+    [Migration("20210412183304_ExtendedIdentityUser")]
+    partial class ExtendedIdentityUser
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -229,7 +229,16 @@ namespace EShop.Migrations.Identity
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
+                    b.Property<string>("AddressText")
+                        .HasColumnType("text");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("text");
+
                     b.Property<string>("LastName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SecondName")
                         .HasColumnType("text");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");

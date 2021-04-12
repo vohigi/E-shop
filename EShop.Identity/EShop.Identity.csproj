@@ -15,8 +15,4 @@
       <Compile Remove="Data\Migrations\00000000000000_CreateIdentitySchema.Designer.cs" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Data\Migrations" />
-    </ItemGroup>
-
 </Project>
