@@ -7,19 +7,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-namespace EShop.Areas.Identity.Pages.Administration
+namespace EShop.Pages.Management.Administration
 {
     [Authorize(Roles = "Administration")]
-    public class CreateAdministratorModel : PageModel
+    public class CreateAdministrator : PageModel
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
-        private readonly ILogger<CreateAdministratorModel> _logger;
+        private readonly ILogger<CreateAdministrator> _logger;
 
-        public CreateAdministratorModel(
+        public CreateAdministrator(
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            ILogger<CreateAdministratorModel> logger)
+            ILogger<CreateAdministrator> logger)
         {
             _userManager = userManager;
             _signInManager = signInManager;
