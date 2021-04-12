@@ -1,0 +1,66 @@
+﻿@page
+@model EShop.Pages.Management.Administration.Feedbacks
+
+@{
+    ViewData["Title"] = "Відгуки";
+    ViewData["ActivePage"] = ManageNavPages.Feedbacks;
+}
+
+<h2>Відгуки</h2>
+
+<form asp-page="./Feedbacks" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Знайти за поштою:
+            <input type="text" name="SearchString" value="Model.CurrentFilter" />
+            <input type="submit" value="Search" class="btn btn-primary" /> |
+            <a asp-page="./Feedbacks">Скинути фільтр</a>
+        </p>
+    </div>
+</form>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Статус
+            </th>
+            <th>
+                Пошта
+            </th>
+            <th>
+               ПІБ користувача
+            </th>
+            <th>
+                Заголовок
+            </th>
+            <th>
+                Дія
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.UserFeedbacks)
+        {
+            <tr>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.IsRead)
+                </td>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.CustomerEmail)
+                </td>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.CustomerName)
+                </td>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.MessageHeader)
+                </td>
+                <td class="align-middle">
+                    <a asp-page="./ShowFeedback" asp-route-id="@item.Id">Переглянути</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">Позначити прочитаним</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

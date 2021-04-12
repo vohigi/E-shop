@@ -53,7 +53,7 @@ namespace EShop.Pages.Management.Administration
             public string ConfirmPassword { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public void OnGetAsync(string returnUrl = null)
         {
             StatusMessage = null;
             ReturnUrl = returnUrl;

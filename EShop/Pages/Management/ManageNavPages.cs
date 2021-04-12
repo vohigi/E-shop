@@ -8,10 +8,12 @@ namespace EShop.Pages.Management
         public static string Products => "Products";
         public static string CreateProducts => "CreateProducts";
         public static string CreateAdministrator => "CreateAdministrator";
+        public static string Feedbacks => "Feedbacks";
         
         public static string ProductsNavClass(ViewContext viewContext) => PageNavClass(viewContext, Products);
         public static string CreateProductsNavClass(ViewContext viewContext) => PageNavClass(viewContext, CreateProducts);
         public static string CreateAdministratorNavClass(ViewContext viewContext) => PageNavClass(viewContext, CreateAdministrator);
+        public static string FeedbacksNavClass(ViewContext viewContext) => PageNavClass(viewContext, Feedbacks);
 
         private static string PageNavClass(ViewContext viewContext, string page)
         {
