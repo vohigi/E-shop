@@ -7,7 +7,7 @@ namespace EShop.Data.Entities
 {
     public class CartItemEntity : IdentifiedEntity
     {
-        public ItemEntity Item { get; set; }
+        public ProductEntity Item { get; set; }
         public Guid? ItemId { get; set; }
         public int Quantity { get; set; }
         public double TotalPrice => Item.Price * Quantity;

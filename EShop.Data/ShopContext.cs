@@ -1,12 +1,11 @@
 ﻿using EShop.Data.Entities;
-using EShop.Identity.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace EShop.Data
 {
     public class ShopContext : DbContext
     {
-        public DbSet<ItemEntity> Items { get; set; }
+        public DbSet<ProductEntity> Products { get; set; }
         public DbSet<CartItemEntity> CartItems { get; set; }
         public DbSet<ShoppingCartEntity> ShoppingCarts { get; set; }
         public DbSet<SpecEntity> Specs { get; set; }
@@ -16,6 +15,7 @@ namespace EShop.Data
         public DbSet<OrderEntity> Orders { get; set; }
         public DbSet<CategoryEntity> Categories { get; set; }
         public DbSet<CategoryToItemLinkEntity> CategoryToItemLinks { get; set; }
+        public DbSet<ImageEntity> Images { get; set; }
         public DbSet<FeedbackEntity> Feedbacks { get; set; }
         
         public ShopContext(DbContextOptions<ShopContext> options)
@@ -29,6 +29,15 @@ namespace EShop.Data
 
             modelBuilder.ApplyConfiguration(new CategoryToItemLinkEntityConfiguration());
             modelBuilder.ApplyConfiguration(new SpecToItemLinkEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new OrderEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new ProductEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new CartItemEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new ShoppingCartEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new SpecEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new ShippingTypeEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new PaymentTypeEntityConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoryEntityConfiguration());
+            // modelBuilder.ApplyConfiguration(new ImageEntityConfiguration());
             modelBuilder.ApplyConfiguration(new FeedbackEntityConfiguration());
         }
     }
