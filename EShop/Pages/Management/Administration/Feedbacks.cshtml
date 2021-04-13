@@ -1,51 +1,74 @@
 ﻿@page
-@model EShop.Pages.Management.Administration.Feedbacks
+@model EShop.Pages.Management.Administration.FeedbacksModel
 
 @{
     ViewData["Title"] = "Відгуки";
     ViewData["ActivePage"] = ManageNavPages.Feedbacks;
 }
 
-<h2>Відгуки</h2>
+<h2>Відгуки користувачів</h2>
 
 <form asp-page="./Feedbacks" method="get">
     <div class="form-actions no-color">
+        <h3>Фільтри:</h3>
         <p>
-            Знайти за поштою:
-            <input type="text" name="SearchString" value="Model.CurrentFilter" />
-            <input type="submit" value="Search" class="btn btn-primary" /> |
-            <a asp-page="./Feedbacks">Скинути фільтр</a>
+            Пошта:
+            <input type="text" asp-for="SearchString"/>
+            Статус:
+            <select asp-for="IsReadValue">
+                <option value="false">Активні</option>
+                <option value="true">Видалені</option>
+            </select>
+
+            <input type="submit" value="Шукати" class="btn btn-primary"/> |
+            <a asp-page="/Management/Administration/Feedbacks">Скинути фільтр</a>
         </p>
     </div>
+    
 </form>
-
+<partial name="_StatusMessage" model="Model.StatusMessage" />
 <table class="table table-striped">
     <thead>
-        <tr>
-            <th>
-                Статус
-            </th>
-            <th>
-                Пошта
-            </th>
-            <th>
-               ПІБ користувача
-            </th>
-            <th>
-                Заголовок
-            </th>
-            <th>
-                Дія
-            </th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>
+            Статус
+        </th>
+        <th>
+            Посилання
+        </th>
+        <th>
+            Пошта
+        </th>
+        <th>
+            ПІБ користувача
+        </th>
+        <th>
+            Заголовок
+        </th>
+        <th>
+            Керування
+        </th>
+        <th></th>
+    </tr>
     </thead>
     <tbody>
+    @if (Model != null && Model.UserFeedbacks != null)
+    {
         @foreach (var item in Model.UserFeedbacks)
         {
             <tr>
                 <td class="align-middle">
-                    @Html.DisplayFor(modelItem => item.IsRead)
+                    @if (!item.IsRead)
+                    {
+                        <text>Новий</text>
+                    }
+                    else
+                    {
+                        <text>Видалений</text>
+                    }
+                </td>
+                <td class="align-middle">
+                    <a asp-page="./ShowFeedback" class="btn btn-outline-primary" asp-route-id="@item.Id">Переглянути</a>
                 </td>
                 <td class="align-middle">
                     @Html.DisplayFor(modelItem => item.CustomerEmail)
@@ -57,10 +80,16 @@
                     @Html.DisplayFor(modelItem => item.MessageHeader)
                 </td>
                 <td class="align-middle">
-                    <a asp-page="./ShowFeedback" asp-route-id="@item.Id">Переглянути</a> |
-                    <a asp-page="./Details" asp-route-id="@item.Id">Позначити прочитаним</a>
+                    <form asp-page="./Feedbacks" method="post">
+                        @if (!item.IsRead)
+                        {
+                            <input type="submit" asp-page-handler="IsRead" class="btn btn-outline-danger" asp-route-id="@item.Id" value="Видалити"/>
+                        } else {<input type="submit" asp-page-handler="IsRead" class="btn btn-outline-warning" asp-route-id="@item.Id" value="Відновити"/>}
+                </form>
+
                 </td>
             </tr>
         }
+    }
     </tbody>
 </table>
