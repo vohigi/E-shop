@@ -35,8 +35,4 @@
       <_ContentIncludedByDefault Remove="Pages\Management\Feedback\FeedbackPage.cshtml" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Pages\Customer" />
-    </ItemGroup>
-
 </Project>

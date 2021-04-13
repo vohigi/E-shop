@@ -1,0 +1,42 @@
+﻿@page
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.EntityFrameworkCore.Metadata.Internal
+@model EShop.Pages.Shop.MainPage
+@{
+    Layout = "Shared/_Layout";
+}
+<div class="row">
+    <div class="col-md-3 border border-primary rounded" style="padding: 1rem">
+        <form method="post">
+        @*<partial name="./_ManageNav"/>*@
+            <h5>Фільтри</h5>
+        <section class="mb-4">
+            <div class="filter-group">
+                <div>
+                    <a href="#" data-toggle="collapse" data-target="#collapse_manufacturers" data-abc="true" aria-expanded="true" class@*="collapsed"*@> <i class="icon-control fa fa-chevron-down"></i>
+                        <h6>Виробник </h6>
+                    </a> 
+                </div>
+                <div class="filter-content collapse show" id="collapse_manufacturers" style="">
+                    @foreach (var item in Model.Manufacturers)
+                    {
+                        <div class="form-check">
+                            <input type="checkbox" value=@item.Value class="form-check-input filled-in" name="SelectedManufacturers" id=@item.Value>
+                            <label class="form-check-label small text-uppercase card-link-secondary" for=@item.Value>@item.Text</label>
+                        </div>
+                    }
+                </div>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input filled-in" name="HasNFC" asp-for="HasNFC" id="HasNFC">
+                <label class="form-check-label small text-uppercase card-link-secondary" for="HasNFC">NFC</label>
+            </div>
+        </section>
+        <input type="submit" value="Шукати" class="btn btn-primary"/>
+        </form>
+    </div>
+    <div class="col-md-9" >
+       
+    </div>
+</div>
+
