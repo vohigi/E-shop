@@ -28,8 +28,10 @@ namespace EShop.Pages.Management.Products
         {
             CurrentFilter = searchString;
             Products = await PaginatedList<ProductEntity>.CreateAsync(
-                _shopContext.Products.Include(x => x.Images).AsNoTracking().Where(s => string.IsNullOrEmpty(searchString) ||
-                    (s.DisplayName.Contains(searchString) || s.Description.Contains(searchString))), page, pageSize);
+                _shopContext.Products.Include(x => x.Images).AsNoTracking().Where(s =>
+                    string.IsNullOrEmpty(searchString) ||
+                    (s.DisplayName.ToUpper().Contains(searchString.ToUpper()) ||
+                     s.Description.ToUpper().Contains(searchString.ToUpper()))), page, pageSize);
             return Page();
         }
     }
