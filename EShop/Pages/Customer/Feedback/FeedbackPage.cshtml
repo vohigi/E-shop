@@ -1,0 +1,38 @@
+﻿@page
+@model EShop.Pages.Feedback.FeedbackPage
+
+@{
+    ViewData["Title"] = "Зворотній зв'язок";
+}
+
+<h1>Форма зворотнього зв'язку</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+    <partial name="_StatusMessage" model="Model.StatusMessage" />
+        <form method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Feedback.MessageHeader" class="control-label">Тема</label>
+                <input asp-for="Feedback.MessageHeader" class="form-control" placeholder="Коротко опишіть суть повідомлення"/>
+                <span asp-validation-for="Feedback.MessageHeader" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Feedback.MessageText" class="control-label">Повідомлення</label>
+                <input asp-for="Feedback.MessageText" class="form-control" placeholder="Напишіть повідомлення тут"/>
+                <span asp-validation-for="Feedback.MessageText" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Надіслати" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

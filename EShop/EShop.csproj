@@ -31,6 +31,12 @@
 
     <ItemGroup>
       <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Administration\CreateAdministrator.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Feedback\FeedbackPage.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Management\Feedback\FeedbackPage.cshtml" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Pages\Customer" />
     </ItemGroup>
 
 </Project>

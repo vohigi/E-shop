@@ -1,0 +1,40 @@
+﻿@page
+@model EShop.Pages.Management.Administration.ShowFeedback
+
+@{
+    ViewData["Title"] = "Відгуки";
+    ViewData["ActivePage"] = ManageNavPages.Feedbacks;
+}
+<a asp-page="/Management/Administration/Feedbacks" class="btn btn-outline-primary">Повернутися назад</a>
+<div class="row">
+    <partial name="_StatusMessage" model="Model.StatusMessage" />
+    <div class="col-md-6">
+        <form asp-page="./ShowFeedback" method="post" asp-route-id="@Model.Feedback.Id">
+            @if (Model.Feedback != null)
+            {
+                <p class="font-weight-bold" style="margin-top: 2rem">Відгук користувача @Model.Feedback.CustomerName</p>
+                <p class="font-weight-bold">Пошта: <span class="font-weight-light"> @Model.Feedback.CustomerEmail</span></p>
+                                                                                              
+                <p class="font-weight-bold">Заголовок: <span class="font-weight-light"> @Model.Feedback.MessageHeader</span></p>
+                
+                <p class="font-weight-bold"> Повідомлення: <span class="font-weight-light"> @Model.Feedback.MessageText</span></p>
+                     
+                @if (Model.Feedback.IsRead)
+                {
+                    <p class="font-weight-bold">Статус: Прочитаний</p>
+                    <input style="margin-top: 3rem" type="submit" class="btn btn-outline-warning" value="Відновити"/>
+                }
+                else
+                {
+                    <p>Статус: <p> Новий</p></p>
+                    <input style="margin-top: 2rem" type="submit" class="btn btn-outline-danger" value="Позначити прочитаним"/>
+                }
+                
+            }
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
