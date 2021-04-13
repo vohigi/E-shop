@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EShop.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    [Migration("20210412213520_InitialCreate")]
+    [Migration("20210413175215_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
