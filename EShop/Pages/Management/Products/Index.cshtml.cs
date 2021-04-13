@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using EShop.Data;
 using EShop.Data.Entities;
@@ -14,6 +15,7 @@ namespace EShop.Pages.Management.Products
     public class Index : PageModel
     {
         private readonly ShopContext _shopContext;
+        public string CurrentFilter { get; set; }
 
         public Index(ShopContext shopContext)
         {
@@ -22,10 +24,12 @@ namespace EShop.Pages.Management.Products
         
         public PaginatedList<ProductEntity> Products { get; set; }
         
-        public async Task<IActionResult> OnGetAsync(int pageSize = 6, int page = 1)
+        public async Task<IActionResult> OnGetAsync(string searchString, int pageSize = 6, int page = 1)
         {
+            CurrentFilter = searchString;
             Products = await PaginatedList<ProductEntity>.CreateAsync(
-                _shopContext.Products.Include(x=>x.Images).AsNoTracking(), page, pageSize);
+                _shopContext.Products.Include(x => x.Images).AsNoTracking().Where(s => string.IsNullOrEmpty(searchString) ||
+                    (s.DisplayName.Contains(searchString) || s.Description.Contains(searchString))), page, pageSize);
             return Page();
         }
     }

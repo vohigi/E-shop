@@ -184,6 +184,12 @@ namespace EShop.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<int?>("BatteryCapacity")
+                        .HasColumnType("integer");
+
+                    b.Property<float?>("Clock")
+                        .HasColumnType("real");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
@@ -192,17 +198,74 @@ namespace EShop.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
+                    b.Property<float?>("DisplayDiagonal")
+                        .HasColumnType("real");
+
+                    b.Property<int?>("DisplayHeight")
+                        .HasColumnType("integer");
+
                     b.Property<string>("DisplayName")
                         .HasColumnType("text");
+
+                    b.Property<int?>("DisplayType")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("DisplayWidth")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("FrontCamera")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("HasNFC")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("HasSdCardSlot")
+                        .HasColumnType("boolean");
+
+                    b.Property<float?>("Height")
+                        .HasColumnType("real");
 
                     b.Property<DateTime?>("LastUpdatedAt")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<string>("Manufacturer")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("NumberOfCores")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("NumberOfSimCards")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("OperatingSystem")
+                        .HasColumnType("text");
+
                     b.Property<double>("Price")
                         .HasColumnType("double precision");
 
+                    b.Property<string>("ProcessorName")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("Ram")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("RearCamera")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("Rom")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Stock")
                         .HasColumnType("integer");
+
+                    b.Property<float?>("Thickness")
+                        .HasColumnType("real");
+
+                    b.Property<int?>("Weight")
+                        .HasColumnType("integer");
+
+                    b.Property<float?>("Width")
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 

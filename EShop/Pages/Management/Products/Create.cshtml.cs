@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using EShop.Data;
 using EShop.Data.Entities;
@@ -26,8 +28,13 @@ namespace EShop.Pages.Management.Products
         
         [BindProperty]
         public IList<IFormFile> ImageFiles { get; set; }
-        
-        
+
+        public async Task<IActionResult> OnGet()
+        {
+            CultureInfo uiCultureInfo = Thread.CurrentThread.CurrentUICulture;
+            CultureInfo cultureInfo = Thread.CurrentThread.CurrentCulture;
+            return Page();
+        }
         public async Task<IActionResult> OnPost()
         {
             if (!ModelState.IsValid)

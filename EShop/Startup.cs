@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -10,6 +11,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using EShop.Data;
 using EShop.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -38,6 +40,20 @@ namespace EShop
                     Configuration.GetConnectionString("EShopDb"), 
                     b => b.MigrationsAssembly("EShop")));
             services.AddDatabaseDeveloperPageExceptionFilter();
+            CultureInfo[] cultures = {
+                new CultureInfo("ua"),
+                new CultureInfo("ru"),
+                new CultureInfo("en")
+            };
+            cultures[1].NumberFormat = CultureInfo.GetCultureInfo("en-US").NumberFormat;
+            cultures[0].NumberFormat = CultureInfo.GetCultureInfo("en-US").NumberFormat;
+
+            services.Configure<RequestLocalizationOptions>(opt =>
+            {
+                opt.DefaultRequestCulture = new RequestCulture(cultures[0]);
+                opt.SupportedCultures = cultures;
+                opt.SupportedUICultures = cultures;
+            });
             services.AddDefaultIdentity<ApplicationUser>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<IdentityContext>();

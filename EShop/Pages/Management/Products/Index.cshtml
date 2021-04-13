@@ -6,19 +6,17 @@
     ViewData["ActivePage"] = ManageNavPages.Products;
 }
 
-<h2>Students</h2>
-
 <p>
-    <a asp-page="Create">Create New</a>
+    <a asp-page="Create">Створити</a>
 </p>
 
 <form asp-page="./Index" method="get">
     <div class="form-actions no-color">
         <p>
-            Find by name:
-            <input type="text" name="SearchString" value="Model.CurrentFilter" />
-            <input type="submit" value="Search" class="btn btn-primary" /> |
-            <a asp-page="./Index">Back to full List</a>
+            Пошук:
+            <input type="text" name="SearchString" value="@Model.CurrentFilter" />
+            <input type="submit" value="Пошук" class="btn btn-primary" /> |
+            <a asp-page="./Index">Скинути фільтри</a>
         </p>
     </div>
 </form>
@@ -62,9 +60,8 @@
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
                 <td class="align-middle">
-                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Редагувати</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Видалити</a>
                 </td>
             </tr>
         }

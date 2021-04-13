@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EShop.Migrations
 {
     [DbContext(typeof(ShopContext))]
-    [Migration("20210412173558_migration3")]
-    partial class migration3
+    [Migration("20210412213520_InitialCreate")]
+    partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -186,6 +186,12 @@ namespace EShop.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<int?>("BatteryCapacity")
+                        .HasColumnType("integer");
+
+                    b.Property<float?>("Clock")
+                        .HasColumnType("real");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
@@ -194,17 +200,74 @@ namespace EShop.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
+                    b.Property<float?>("DisplayDiagonal")
+                        .HasColumnType("real");
+
+                    b.Property<int?>("DisplayHeight")
+                        .HasColumnType("integer");
+
                     b.Property<string>("DisplayName")
                         .HasColumnType("text");
+
+                    b.Property<int?>("DisplayType")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("DisplayWidth")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("FrontCamera")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("HasNFC")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("HasSdCardSlot")
+                        .HasColumnType("boolean");
+
+                    b.Property<float?>("Height")
+                        .HasColumnType("real");
 
                     b.Property<DateTime?>("LastUpdatedAt")
                         .HasColumnType("timestamp without time zone");
 
+                    b.Property<string>("Manufacturer")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("NumberOfCores")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("NumberOfSimCards")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("OperatingSystem")
+                        .HasColumnType("text");
+
                     b.Property<double>("Price")
                         .HasColumnType("double precision");
 
+                    b.Property<string>("ProcessorName")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("Ram")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("RearCamera")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("Rom")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Stock")
                         .HasColumnType("integer");
+
+                    b.Property<float?>("Thickness")
+                        .HasColumnType("real");
+
+                    b.Property<int?>("Weight")
+                        .HasColumnType("integer");
+
+                    b.Property<float?>("Width")
+                        .HasColumnType("real");
 
                     b.HasKey("Id");
 
@@ -307,6 +370,42 @@ namespace EShop.Migrations
                     b.HasIndex("SpecId");
 
                     b.ToTable("SpecToItemLinks");
+                });
+
+            modelBuilder.Entity("EShop.Identity.Entities.FeedbackEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValueSql("now()::timestamp(0) at time zone 'utc'");
+
+                    b.Property<string>("CustomerEmail")
+                        .HasColumnType("text");
+
+                    b.Property<string>("CustomerName")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime?>("LastUpdatedAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("MessageHeader")
+                        .HasColumnType("text");
+
+                    b.Property<string>("MessageText")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("IsRead");
+
+                    b.ToTable("Feedbacks");
                 });
 
             modelBuilder.Entity("EShop.Data.Entities.CartItemEntity", b =>

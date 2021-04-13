@@ -1,36 +1,37 @@
-﻿@page
+﻿@page "{id:Guid}"
 @using EShop.Data.Enums
-@model EShop.Pages.Management.Products.Create
+@model EShop.Pages.Management.Products.Edit
 
 @{
-    ViewData["Title"] = "Додати товар";
-    ViewData["ActivePage"] = ManageNavPages.CreateProducts;
+    ViewData["Title"] = "Редагувати товар";
 }
 
-<h4>Додати товар</h4>
-<hr />
+<h4>Редагувати товар</h4>
+<hr/>
 <div class="row">
     <div class="col-md-8">
         <form method="post" enctype="multipart/form-data" id="createProducts">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Product.Id"/>
+
             <div class="form-group">
                 <label asp-for="Product.DisplayName" class="control-label">Назва</label>
-                <input asp-for="Product.DisplayName" class="form-control" />
+                <input asp-for="Product.DisplayName" class="form-control"/>
                 <span asp-validation-for="Product.DisplayName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Product.Description" class="control-label">Опис</label>
-                <input asp-for="Product.Description" class="form-control" />
+                <input asp-for="Product.Description" class="form-control"/>
                 <span asp-validation-for="Product.Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Product.Price" class="control-label">Ціна за 1 шт.</label>
-                <input asp-for="Product.Price" class="form-control" />
+                <input asp-for="Product.Price" class="form-control"/>
                 <span asp-validation-for="Product.Price" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Product.Stock" class="control-label">Кількість на складі</label>
-                <input asp-for="Product.Stock" class="form-control" />
+                <input asp-for="Product.Stock" class="form-control"/>
                 <span asp-validation-for="Product.Stock" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -39,38 +40,38 @@
                     Розгорнути / Згорнути
                 </a>
             </div>
-            
+
             <div class="collapse show" id="collapseExample">
                 <div class="form-group">
                     <label asp-for="Product.Manufacturer" class="control-label">Виробник</label>
-                    <input asp-for="Product.Manufacturer" class="form-control" />
+                    <input asp-for="Product.Manufacturer" class="form-control"/>
                     <span asp-validation-for="Product.Manufacturer" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Product.OperatingSystem" class="control-label">Операційна система</label>
-                    <input asp-for="Product.OperatingSystem" class="form-control" />
+                    <input asp-for="Product.OperatingSystem" class="form-control"/>
                     <span asp-validation-for="Product.OperatingSystem" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Product.Ram" class="control-label">Об'єм оперативної пам'яті</label>
-                    <input asp-for="Product.Ram" class="form-control" />
+                    <input asp-for="Product.Ram" class="form-control"/>
                     <span asp-validation-for="Product.Ram" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Product.Rom" class="control-label">Об'єм постійної пам'яті</label>
-                    <input asp-for="Product.Rom" class="form-control" />
+                    <input asp-for="Product.Rom" class="form-control"/>
                     <span asp-validation-for="Product.Rom" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Product.NumberOfSimCards" class="control-label">Кількість сім-карт</label>
-                    <input asp-for="Product.NumberOfSimCards" class="form-control" />
+                    <input asp-for="Product.NumberOfSimCards" class="form-control"/>
                     <span asp-validation-for="Product.NumberOfSimCards" class="text-danger"></span>
                 </div>
-                
+
                 <div class="form-group">
                     <div class="custom-control custom-switch">
-                      <input asp-for="Product.HasSdCardSlot" type="checkbox" class="custom-control-input">
-                      <label asp-for="Product.HasSdCardSlot" class="custom-control-label">Є слот для SD карт</label>
+                        <input asp-for="Product.HasSdCardSlot" type="checkbox" class="custom-control-input">
+                        <label asp-for="Product.HasSdCardSlot" class="custom-control-label">Є слот для SD карт</label>
                     </div>
                     @* <label asp-for="Product.HasSdCardSlot" type="" class="control-label">Є слот для SD карт</label> *@
                     @* <input asp-for="Product.HasSdCardSlot" class="form-control"/> *@
@@ -78,54 +79,54 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Product.ProcessorName" class="control-label">Процесор</label>
-                    <input asp-for="Product.ProcessorName" class="form-control" />
+                    <input asp-for="Product.ProcessorName" class="form-control"/>
                     <span asp-validation-for="Product.ProcessorName" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Product.NumberOfCores" class="control-label">Кількість ядер</label>
-                    <input asp-for="Product.NumberOfCores" class="form-control" />
+                    <input asp-for="Product.NumberOfCores" class="form-control"/>
                     <span asp-validation-for="Product.NumberOfCores" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Product.Clock" class="control-label">Тактова частота</label>
-                    <input asp-for="Product.Clock" class="form-control" />
+                    <input asp-for="Product.Clock" class="form-control"/>
                     <span asp-validation-for="Product.Clock" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Product.BatteryCapacity" class="control-label">Об'єм акамулятора (мАг)</label>
-                    <input asp-for="Product.BatteryCapacity" class="form-control" />
+                    <input asp-for="Product.BatteryCapacity" class="form-control"/>
                     <span asp-validation-for="Product.BatteryCapacity" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Product.DisplayDiagonal" class="control-label">Дагональ екрану</label>
-                    <input asp-for="Product.DisplayDiagonal" class="form-control" />
+                    <input asp-for="Product.DisplayDiagonal" class="form-control"/>
                     <span asp-validation-for="Product.DisplayDiagonal" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Product.DisplayWidth" class="control-label">Роздільна здатність (ширина)</label>
-                    <input asp-for="Product.DisplayWidth" class="form-control" />
+                    <input asp-for="Product.DisplayWidth" class="form-control"/>
                     <span asp-validation-for="Product.DisplayWidth" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Product.DisplayHeight" class="control-label">Роздільна здатність (висота)</label>
-                    <input asp-for="Product.DisplayHeight" class="form-control" />
+                    <input asp-for="Product.DisplayHeight" class="form-control"/>
                     <span asp-validation-for="Product.DisplayHeight" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Product.DisplayType" class="control-label">Тип екрану</label>
                     <select asp-for="Product.DisplayType" asp-items="Html.GetEnumSelectList<DisplayType>()" class="custom-select">
-                            <option selected="selected" disabled value="">...</option>
-                        </select>
+                        <option selected="selected" disabled value="">...</option>
+                    </select>
                     <span asp-validation-for="Product.DisplayType" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Product.RearCamera" class="control-label">Основна камера</label>
-                    <input asp-for="Product.RearCamera" class="form-control" />
+                    <input asp-for="Product.RearCamera" class="form-control"/>
                     <span asp-validation-for="Product.RearCamera" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Product.FrontCamera" class="control-label">Фронтальна камера</label>
-                    <input asp-for="Product.FrontCamera" class="form-control" />
+                    <input asp-for="Product.FrontCamera" class="form-control"/>
                     <span asp-validation-for="Product.FrontCamera" class="text-danger"></span>
                 </div>
                 <div class="form-group">
@@ -136,51 +137,49 @@
                 </div>
                 <div class="form-group">
                     <label asp-for="Product.Width" class="control-label">Ширина</label>
-                    <input asp-for="Product.Width" class="form-control" />
+                    <input asp-for="Product.Width" class="form-control"/>
                     <span asp-validation-for="Product.Width" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Product.Height" class="control-label">Висота</label>
-                    <input asp-for="Product.Height" class="form-control" />
+                    <input asp-for="Product.Height" class="form-control"/>
                     <span asp-validation-for="Product.FrontCamera" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Product.Thickness" class="control-label">Товщина</label>
-                    <input asp-for="Product.Thickness" class="form-control" />
+                    <input asp-for="Product.Thickness" class="form-control"/>
                     <span asp-validation-for="Product.Thickness" class="text-danger"></span>
                 </div>
-                
+
                 <div class="form-group">
                     <label asp-for="Product.Weight" class="control-label">Вага</label>
-                    <input asp-for="Product.Weight" class="form-control" />
+                    <input asp-for="Product.Weight" class="form-control"/>
                     <span asp-validation-for="Product.Weight" class="text-danger"></span>
                 </div>
-                
-                
-                
-                
+
+
             </div>
+            @* <div class="form-group"> *@
+            @*     <div class="custom-file"> *@
+            @*         $1$ <label asp-for="ImageFiles" class="custom-file-label" for="customFile">Зображення</label> #1# *@
+            @*         $1$ <input asp-for="ImageFiles" type="file" multiple class="custom-file-input" id="customFile"/> #1# *@
+            @*         <label asp-for="ImageFiles" class="control-label">Зображення</label> *@
+            @*         <input asp-for="ImageFiles" class="form-control"/> *@
+            @* *@
+            @*         <span asp-validation-for="ImageFiles" class="text-danger"></span> *@
+            @*     </div> *@
+            @* </div> *@
             <div class="form-group">
-                <div class="custom-file">
-                    @* <label asp-for="ImageFiles" class="custom-file-label" for="customFile">Зображення</label> *@
-                    @* <input asp-for="ImageFiles" type="file" multiple class="custom-file-input" id="customFile"/> *@
-                    <label asp-for="ImageFiles" class="control-label">Зображення</label>
-                    <input asp-for="ImageFiles" class="form-control"/>
-                    
-                    <span asp-validation-for="ImageFiles" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Створити" class="btn btn-primary" />
+                <input type="submit" value="Зберегти" class="btn btn-primary"/>
             </div>
         </form>
     </div>
 </div>
 
 @* <div> *@
-@*     <a asp-page="Index">Back to List</a> *@
+@*     <a asp-page="./Index">Back to List</a> *@
 @* </div> *@
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 }
