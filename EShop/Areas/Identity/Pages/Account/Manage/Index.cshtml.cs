@@ -14,13 +14,16 @@ namespace EShop.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IdentityContext _identityContext;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            IdentityContext identityContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _identityContext = identityContext;
         }
 
         public string Username { get; set; }
@@ -36,6 +39,14 @@ namespace EShop.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+            [Display(Name = "Address")]
+            public string Address { get; set; }
+            [Display(Name = "FirstName")]
+            public string FirstName { get; set; }
+            [Display(Name = "SecondName")]
+            public string SecondName { get; set; }
+            [Display(Name = "LastName")]
+            public string LastName { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -47,7 +58,11 @@ namespace EShop.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                Address = user.AddressText ?? "",
+                FirstName = user.FirstName ?? "",
+                SecondName = user.SecondName ?? "",
+                LastName = user.LastName ?? "",
             };
         }
 
@@ -56,7 +71,7 @@ namespace EShop.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Помилка. Неможливо завантажити профіль з Id '{_userManager.GetUserId(User)}'.");
             }
 
             await LoadAsync(user);
@@ -68,7 +83,7 @@ namespace EShop.Areas.Identity.Pages.Account.Manage
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                return NotFound($"Помилка. Неможливо завантажити профіль з Id '{_userManager.GetUserId(User)}'.");
             }
 
             if (!ModelState.IsValid)
@@ -83,13 +98,18 @@ namespace EShop.Areas.Identity.Pages.Account.Manage
                 var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
                 if (!setPhoneResult.Succeeded)
                 {
-                    StatusMessage = "Unexpected error when trying to set phone number.";
+                    StatusMessage = "Помилка. Неможливо встановити номер телефону";
                     return RedirectToPage();
                 }
             }
-
+            await using var context = _identityContext;
+            user.AddressText = Input.Address;
+            user.FirstName = Input.FirstName;
+            user.SecondName = Input.SecondName;
+            user.LastName = Input.LastName;
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "Ваш профіль був оновлений";
+            await context.SaveChangesAsync();
             return RedirectToPage();
         }
     }

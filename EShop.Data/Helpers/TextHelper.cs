@@ -7,9 +7,17 @@
             return $"{lastName}{ExistingName(firstName)}{ExistingName(secondName)}";
         }
 
+        public static string GetShortString(string text, int length = 20)
+        {
+            return !string.IsNullOrEmpty(text) && text.Length > length
+                ? text.Substring(0, length) + "..." 
+                : text ?? "";
+        }
+        
         private static string ExistingName(string name)
         {
             return string.IsNullOrEmpty(name) ? "" : $" {name}";
         }
+        
     }
 }

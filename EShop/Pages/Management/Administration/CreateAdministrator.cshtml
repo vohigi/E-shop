@@ -11,7 +11,7 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
-            <h4>Create a new e-shop administrator account.</h4>
+            <h4>Створіть нового адміністратора для інтернет-магазину</h4>
             <hr/>
             <partial name="Shared/_StatusMessage" for="StatusMessage" />
             <div asp-validation-summary="All" class="text-danger"></div>
@@ -30,7 +30,7 @@
                 <input asp-for="Input.ConfirmPassword" class="form-control"/>
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
-            <button type="submit" class="btn btn-primary">Register</button>
+            <button type="submit" class="btn btn-primary">Зареєструвати</button>
         </form>
     </div>
 </div>

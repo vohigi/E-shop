@@ -28,18 +28,18 @@ namespace EShop.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "Обов'язкове поле {0}")]
             [EmailAddress]
             public string Email { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessage = "Обов'язкове поле {0}")]
+            [StringLength(100, ErrorMessage = "{0} має вміщати символів більше ніж {2} та менше ніж {1}.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Compare("Password", ErrorMessage = "Паролі не співпадають")]
             public string ConfirmPassword { get; set; }
 
             public string Code { get; set; }

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using EShop.Data;
+using EShop.Data.Helpers;
 using EShop.Identity.Entities;
 using EShop.Utilities;
 using Microsoft.AspNetCore.Mvc;
@@ -39,6 +40,10 @@ namespace EShop.Pages.Management.Administration
                             && string.IsNullOrEmpty(SearchString) 
                              || x.CustomerEmail.Contains(SearchString) && x.IsRead.Equals(isRead)) 
                 , page, pageSize);
+            foreach (var feedbackEntity in UserFeedbacks)
+            {
+                feedbackEntity.MessageHeader = TextHelper.GetShortString(feedbackEntity.MessageHeader);
+            }
             return Page();
         }
 

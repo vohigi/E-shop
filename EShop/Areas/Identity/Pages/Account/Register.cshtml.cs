@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 
 namespace EShop.Areas.Identity.Pages.Account
 {
@@ -41,24 +42,45 @@ namespace EShop.Areas.Identity.Pages.Account
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "Обов'язкове поле {0}")]
             [EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessage = "Обов'язкове поле {0}")]
+            [StringLength(100, ErrorMessage = "{0} має вміщати символів більше ніж {2} та менше ніж {1}.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
             public string Password { get; set; }
 
             [DataType(DataType.Password)]
             [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Compare("Password", ErrorMessage = "Паролі не співпадають")]
             public string ConfirmPassword { get; set; }
+            [Phone]
+            [Display(Name = "Phone number")]
+            public string PhoneNumber { get; set; }
+            
+            [StringLength(100, ErrorMessage = "{0} має вміщати символів більше ніж {2} та менше ніж {1}.", MinimumLength = 3)]
+            [Display(Name = "Address")]
+            public string Address { get; set; }
+            
+            [Required(ErrorMessage = "Обов'язкове поле {0}")]
+            [StringLength(24, ErrorMessage = "{0} має вміщати символів більше ніж {2} та менше ніж {1}.", MinimumLength = 1)]
+            [Display(Name = "FirstName")]
+            public string FirstName { get; set; }
+            
+            [StringLength(24, ErrorMessage = "{0} має вміщати символів більше ніж {2} та менше ніж {1}.", MinimumLength = 1)]
+            [Display(Name = "SecondName")]
+            public string SecondName { get; set; }
+            
+            [StringLength(24, ErrorMessage = "{0} має вміщати символів більше ніж {2} та менше ніж {1}.", MinimumLength = 1)]
+            [Required(ErrorMessage = "Обов'язкове поле {0}")]
+            [Display(Name = "LastName")]
+            public string LastName { get; set; }
         }
 
-        public async Task OnGetAsync(string returnUrl = null)
+        public void OnGet(string returnUrl = null)
         {
             ReturnUrl = returnUrl;
         }

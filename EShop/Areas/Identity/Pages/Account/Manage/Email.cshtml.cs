@@ -44,7 +44,7 @@ namespace EShop.Areas.Identity.Pages.Account.Manage
 
         public class InputModel
         {
-            [Required]
+            [Required(ErrorMessage = "Обов'язкове поле {0}")]
             [EmailAddress]
             [Display(Name = "New email")]
             public string NewEmail { get; set; }
