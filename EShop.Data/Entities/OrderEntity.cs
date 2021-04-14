@@ -14,6 +14,7 @@ namespace EShop.Data.Entities
         public Guid? ShippingTypeId { get; set; }
         public double TotalPrice { get; set; }
         public ShoppingCartEntity ShoppingCart { get; set; }
+        public bool IsPaid { get; set; }
     }
     public class OrderEntityConfiguration : IdentifiedEntityConfiguration<OrderEntity>
     {

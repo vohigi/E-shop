@@ -1,0 +1,91 @@
+﻿@page
+@inject SignInManager<ApplicationUser> SignInManager
+@{
+    Layout = null;
+}
+@model PaymentSystem
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"] - EShop</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="~/css/site.css"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<div class="container" style="margin: auto; margin-top: 10rem">
+    <main role="main" class="pb-3" >
+        <div class="row">
+            <div class="col-lg-6 mx-auto">
+                <div class="card ">
+                    <div class="card-header">
+                        <!-- Credit card form content -->
+                        <div class="tab-content">
+                            <!-- credit card info-->
+                            <div id="credit-card" class="tab-pane fade show active pt-3">
+                                <form role="form">
+                                    <div class="form-group"> <label for="username">
+                                        <h6>Власник картки</h6>
+                                    </label> <input type="text" name="username" placeholder="" required class="form-control "> </div>
+                                    <div class="form-group"> <label for="cardNumber">
+                                            <h6>Номер картки</h6>
+                                        </label>
+                                        <div class="input-group"> <input type="text" name="cardNumber" placeholder="Valid card number" class="form-control " required>
+                                            <div class="input-group-append"> <span class="input-group-text text-muted"> <i class="fab fa-cc-visa mx-1"></i> <i class="fab fa-cc-mastercard mx-1"></i> <i class="fab fa-cc-amex mx-1"></i> </span> </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-8">
+                                            <div class="form-group"> <label><span class="hidden-xs">
+                                                    <h6>Дата закінчення сроку дії</h6>
+                                                </span></label>
+                                                <div class="input-group"> <input type="number" placeholder="MM" name="" class="form-control" required> <input type="number" placeholder="YY" name="" class="form-control" required> </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-4">
+                                            <div class="form-group mb-4"> <label data-toggle="tooltip" title="Трьохзначний код на звороті Вашої картки">
+                                                <h6>CVV <i class="fa fa-question-circle d-inline"></i></h6>
+                                            </label> <input type="text" required class="form-control"> </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        @*<div class="form-control total btn btn-primary btn-block" disabled>
+                                            Total:
+                                            <span class="amount">$300</span>
+                                        </div>*@
+                                        @if (Model?.Order?.TotalPrice != null)
+                                        {
+                                            <button type="button" class="form-control total btn btn-primary btn-block" disabled>Сума : ₴@Model.Order.TotalPrice грн.</button>
+                                        }
+                                        <button type="button" class="subscribe btn btn-success btn-block shadow-sm"> Підтвердити платіж </button>
+                                        <a asp-page="/Index" class="btn btn-block btn-outline-primary shadow-sm"><i class="fas fa-arrow-left"></i> Повернутися до магазину</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div> <!-- End -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<footer class="border-top footer text-muted">
+    <div class="container">
+        &copy; 2021 - EShopPaymentSystem - 
+        <a asp-area="" asp-page="/Index">Повернутися до магазину</a>
+    </div>
+</footer>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+<script src="https://kit.fontawesome.com/92d10607b6.js" crossorigin="anonymous"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="https://kit.fontawesome.com/cf239c7dc3.js" crossorigin="anonymous"></script>
+
+</body>
+</html>

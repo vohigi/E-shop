@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using EShop.Data;
 using EShop.Data.Entities;
 
@@ -9,7 +10,6 @@ namespace EShop.Utilities
 
         public static void PaymentInitialize(ShopContext shopContext)
         {
-            
             shopContext.Database.EnsureCreated();
             
             //stop initializing if administrator role already exists
@@ -23,6 +23,7 @@ namespace EShop.Utilities
             });
             shopContext.PaymentTypes.Add(new PaymentTypeEntity()
             {
+                Id = Guid.Parse("a213f4eb-e6ac-4ae5-8657-ce6dc089cbff"),
                 Name = "Карткою онлайн",
                 Description = "При оплаті карткою можлива комісія від 2% до 10% в залежності від картки і банку"
             });
