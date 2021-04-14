@@ -33,6 +33,8 @@
       <_ContentIncludedByDefault Remove="Areas\Identity\Pages\Administration\CreateAdministrator.cshtml" />
       <_ContentIncludedByDefault Remove="Pages\Feedback\FeedbackPage.cshtml" />
       <_ContentIncludedByDefault Remove="Pages\Management\Feedback\FeedbackPage.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Shop\MainPage.cshtml" />
+      <_ContentIncludedByDefault Remove="Pages\Shop\_ManageNav.cshtml" />
     </ItemGroup>
 
 </Project>

@@ -65,6 +65,8 @@ namespace EShop.Pages
         
         public async Task<IActionResult> OnGet(string searchString, int pageSize = 6, int page = 1)
         {
+            PaginatedProductsList = await PaginatedList<ProductEntity>.CreateAsync(GetProductEntities(searchString), page, pageSize);
+
             Manufacturers = PrepareManufacturersList();
             OperatingSystems = PrepareOperatingSystemsList();
             RamList = PrepareRamList();
@@ -72,20 +74,21 @@ namespace EShop.Pages
             BatteryCapacities = PrepareBatteryCapacities();
             ScreenSizes = PrepareScreenSizes();
             Weights = PrepareWeights();
-            //PaginatedProductsList = await PaginatedList<ProductEntity>.CreateAsync(GetProductEntities(searchString), page, pageSize);
+            HasNFC = false;
+            HasSdCardSlot = false;
             return Page();
         }
 
-        public async Task<IActionResult> OnPostSearch()
+        public async Task<IActionResult> OnPostSearch(string searchString)
         {
-            var res = await GetProductEntities("");
-            
-            return await OnGet("");
+            return await OnGet(searchString);
         }
 
-        private async Task<IQueryable<ProductEntity>> GetProductEntities(string searchString)
+        private IQueryable<ProductEntity> GetProductEntities(string searchString)
         {
-            var result = _shopContext.Products.AsNoTracking()
+            var result = _shopContext.Products
+                .AsNoTracking()
+                .Include(i => i.Images)
                 .Where(p =>
                     #region search string adapter
                     (string.IsNullOrEmpty(searchString) || searchString.Length < 3 
