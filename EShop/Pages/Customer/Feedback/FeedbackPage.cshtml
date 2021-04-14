@@ -19,7 +19,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Input.MessageText" class="control-label">Повідомлення</label>
-                <input asp-for="Input.MessageText" class="form-control" placeholder="Напишіть повідомлення тут"/>
+                <textarea asp-for="Input.MessageText" class="form-control" id="exampleFormControlTextarea1" placeholder="Напишіть повідомлення тут" rows="3"></textarea>
                 <span asp-validation-for="Input.MessageText" class="text-danger"></span>
             </div>
             <div class="form-group">
