@@ -98,7 +98,7 @@ namespace EShop.Pages
             var userId = _userManager.GetUserId(Request.HttpContext.User);
             if (string.IsNullOrEmpty(userId))
             {
-                return RedirectToPage("/Account/Login");
+                return RedirectToPage("/Account/Login",new { area = "Identity" });
             }
 
             var product = await _shopContext.Products.FirstOrDefaultAsync(x => x.Id == id);

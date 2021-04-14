@@ -30,7 +30,7 @@ namespace EShop.Pages
             var userId = _userManager.GetUserId(Request.HttpContext.User);
             if (string.IsNullOrEmpty(userId))
             {
-                return RedirectToPage("/Account/Login");
+                return RedirectToPage("/Account/Login",new { area = "Identity" });
             }
 
             var existingShoppingCart =
@@ -51,7 +51,7 @@ namespace EShop.Pages
             var userId = _userManager.GetUserId(Request.HttpContext.User);
             if (string.IsNullOrEmpty(userId))
             {
-                return RedirectToPage("/Account/Login");
+                return RedirectToPage("/Account/Login",new { area = "Identity" });
             }
             var existingShoppingCart =
                 await _shopContext.ShoppingCarts.Include(x => x.CartItems).ThenInclude(x => x.Item)

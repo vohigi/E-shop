@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using EShop.Data;
 using EShop.Identity;
+using EShop.Utilities;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -96,6 +97,8 @@ namespace EShop
             shopContext.Database.Migrate();
 
             RoleInitializer.AdministratorInitialize(identityContext);
+            PaymentInitializer.PaymentInitialize(shopContext);
+            ShippingTypesInitializer.ShippingInitialize(shopContext);
         }
     }
 }
