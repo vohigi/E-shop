@@ -5,6 +5,7 @@ using EShop.Data;
 using EShop.Data.Helpers;
 using EShop.Identity.Entities;
 using EShop.Utilities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -12,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EShop.Pages.Management.Administration
 {
+    [Authorize(Roles = "Administration")]
     public class FeedbacksModel : PageModel
     {
         private readonly ShopContext _shopContext;
