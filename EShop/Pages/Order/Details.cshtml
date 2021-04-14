@@ -69,12 +69,17 @@
             <h5>Спосіб доставки</h5>
 
             <div class="row" style="margin-left: 0; margin-right: 0;">
-                @Model.Order.ShippingType.Name 
+                @Model.Order.ShippingType.Name
             </div>
             <h5>Оплата</h5>
             <div class="row" style="margin-left: 0; margin-right: 0;">
-                @Model.Order.PaymentType.Name 
+                @Model.Order.PaymentType.Name
             </div>
+            <h5>Дата створеня</h5>
+            <div class="row" style="margin-left: 0; margin-right: 0;">
+                @TimeZoneInfo.ConvertTimeFromUtc(Model.Order.CreatedAt, TimeZoneInfo.FindSystemTimeZoneById("FLE Standard Time")).ToString("dd MMMM yyyy HH:mm")
+            </div>
+
         </div>
         <div class="col-sm">
             <h5>Дані замовника</h5>
@@ -94,6 +99,6 @@
 
     </div>
     <div class="row mt-5" style="margin-left: 0; margin-right: 0;">
-        <a asp-page="/Index" class="btn btn-outline-primary mt-5"><i class="fas fa-arrow-left"></i> До списку замовлень</a>
+        <a asp-page="./Index" class="btn btn-outline-primary mt-5"><i class="fas fa-arrow-left"></i> До списку замовлень</a>
     </div>
 </div>

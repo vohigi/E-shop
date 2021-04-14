@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using EShop.Data;
 using EShop.Data.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -9,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EShop.Pages.Order
 {
+    [Authorize()]
     public class Details : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;

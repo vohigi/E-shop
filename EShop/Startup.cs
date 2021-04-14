@@ -13,6 +13,7 @@ using EShop.Data;
 using EShop.Identity;
 using EShop.Utilities;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -59,6 +60,10 @@ namespace EShop
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<IdentityContext>();
             services.AddSession();
+            services.Configure<RazorViewEngineOptions>(options =>
+            {
+                options.PageViewLocationFormats.Add("/Areas/Identity/Pages/Account/Manage/{0}" + RazorViewEngine.ViewExtension);
+            });
             services.AddRazorPages();
         }
 

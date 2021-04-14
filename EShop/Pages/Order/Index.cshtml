@@ -1,0 +1,63 @@
+﻿@page
+@using EShop.Areas.Identity.Pages.Account.Manage
+@model EShop.Pages.Order.Index
+@{
+    ViewData["Title"] = "Мої замовлення";
+}
+<h4 class="mb-4">Мої замовлення</h4>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>
+                Дата створення
+            </th>
+            <th>
+                До сплати
+            </th>
+            <th>
+               Тип доставки
+            </th>
+            <th>
+                Тип оплати
+            </th>
+            <th>
+                Сплачено
+            </th>
+            <th>
+                           
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Orders)
+        {
+            <tr>
+                <td class="align-middle">
+                    @TimeZoneInfo.ConvertTimeFromUtc(item.CreatedAt,TimeZoneInfo.FindSystemTimeZoneById("FLE Standard Time")).ToString("yyyy MMMM dd HH:mm")
+                </td>
+                <td class="align-middle">
+                   @Html.DisplayFor(modelItem => item.TotalPrice)
+                </td>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.ShippingType.Name)
+                </td>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.PaymentType.Name)
+                </td>
+                <td class="align-middle">
+                    @if (item.IsPaid)
+                    {
+                        <i class="fas fa-check text-success" ></i>
+                    }
+                    else
+                    {
+                    <i class="fas fa-times text-danger" ></i>
+                    }
+                </td>
+                <td class="align-middle">
+                    <a asp-page="./Details" asp-route-id="@item.Id" class="btn btn-outline-primary">Деталі</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
