@@ -3,15 +3,24 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using EShop.Data;
+using EShop.Data.Entities;
+using EShop.Utilities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace EShop.Pages
 {
     public class IndexModel : PageModel
     {
+        private readonly ShopContext _shopContext;
+        public IndexModel(ShopContext shopContext)
+        {
+            _shopContext = shopContext;
+        }
         [BindProperty]
         public List<SelectListItem> Manufacturers { get; set; }
         [BindProperty]
@@ -38,10 +47,10 @@ namespace EShop.Pages
         public int? SelectedBatteryCapacity { get; set; }
         [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Ціна дозволена лише в цілих числах")]
         [BindProperty]
-        public int? MinPrice { get; set; }
+        public double? MinPrice { get; set; }
         [BindProperty]
         [RegularExpression("([1-9][0-9]*)", ErrorMessage = "Ціна дозволена лише в цілих числах")]
-        public int? MaxPrice { get; set; }
+        public double? MaxPrice { get; set; }
         [BindProperty]
         public float? SelectedScreenSize { get; set; }
         [BindProperty]
@@ -51,8 +60,10 @@ namespace EShop.Pages
         public bool HasNFC { get; set; }
         [BindProperty]
         public bool HasSdCardSlot { get; set; }
+        public PaginatedList<ProductEntity> PaginatedProductsList { get; set; }
+        private List<ProductEntity> ProductList { get; set; }
         
-        public async Task<IActionResult> OnGet()
+        public async Task<IActionResult> OnGet(string searchString, int pageSize = 6, int page = 1)
         {
             Manufacturers = PrepareManufacturersList();
             OperatingSystems = PrepareOperatingSystemsList();
@@ -61,29 +72,94 @@ namespace EShop.Pages
             BatteryCapacities = PrepareBatteryCapacities();
             ScreenSizes = PrepareScreenSizes();
             Weights = PrepareWeights();
+            //PaginatedProductsList = await PaginatedList<ProductEntity>.CreateAsync(GetProductEntities(searchString), page, pageSize);
             return Page();
         }
 
-        public async Task<IActionResult> OnPost()
+        public async Task<IActionResult> OnPostSearch()
         {
-            var a = SelectedManufacturers;
-            var nfc = HasNFC;
-            var b = SelectedRamList;
-            var c = MinPrice;
-            var bg = SelectedBatteryCapacity;
-            return await OnGet();
+            var res = await GetProductEntities("");
+            
+            return await OnGet("");
+        }
+
+        private async Task<IQueryable<ProductEntity>> GetProductEntities(string searchString)
+        {
+            var result = _shopContext.Products.AsNoTracking()
+                .Where(p =>
+                    #region search string adapter
+                    (string.IsNullOrEmpty(searchString) || searchString.Length < 3 
+                     || p.DisplayName.ToLower().Contains(searchString.ToLower()) 
+                     || p.Manufacturer.ToLower().Contains(searchString.ToLower()))
+                    #endregion
+                    &&
+                    #region manufacturer adapter
+                    (SelectedManufacturers == null || !SelectedManufacturers.Any()
+                    || SelectedManufacturers.Contains(p.Manufacturer.ToLower()))
+                    #endregion
+                    &&
+                    #region OS adapter
+                    (SelectedOperatingSystems == null || !SelectedOperatingSystems.Any()
+                    || SelectedOperatingSystems.Contains(p.OperatingSystem.ToLower()))
+                    #endregion
+                    &&
+                    #region RAM adapter
+                    (!p.Ram.HasValue || SelectedRamList == null || !SelectedRamList.Any()
+                    || SelectedRamList.Contains(p.Ram.Value))
+                    #endregion
+                    &&
+                    #region ROM adapter
+                    (!p.Rom.HasValue || SelectedRomList == null || !SelectedRomList.Any()
+                     || SelectedRomList.Contains(p.Rom.Value))
+                    #endregion
+                    &&
+                    #region battery capacity adapter
+                    (!SelectedBatteryCapacity.HasValue || SelectedBatteryCapacity < 2500
+                     || SelectedBatteryCapacity >= 6000 && p.BatteryCapacity >= 6000
+                     || p.BatteryCapacity >= SelectedBatteryCapacity && p.BatteryCapacity < SelectedBatteryCapacity + 500)
+                    #endregion
+                    &&
+                    #region price adapter
+                    (!MinPrice.HasValue && !MaxPrice.HasValue ||
+                     !MinPrice.HasValue && MaxPrice.HasValue && p.Price <= MaxPrice ||
+                     !MaxPrice.HasValue && MinPrice.HasValue && p.Price >= MinPrice ||
+                     MinPrice.HasValue && MaxPrice.HasValue && p.Price >= MinPrice && p.Price <= MaxPrice)
+                    #endregion
+                    &&
+                    #region display diagonal adapter
+                    (!SelectedScreenSize.HasValue || SelectedScreenSize < 4
+                     || SelectedScreenSize >= 7 && p.DisplayDiagonal >= 7
+                     || p.DisplayDiagonal >= SelectedScreenSize && p.DisplayDiagonal <= SelectedScreenSize + 0.5)
+                    #endregion
+                    &&
+                    #region weight adapter
+                    (!SelectedWeight.HasValue || SelectedWeight <= 100 && p.Weight <= 100
+                     || SelectedWeight > 300 && p.Weight > 300
+                     || p.Weight >= SelectedWeight && p.Weight < SelectedWeight + 50)
+                    #endregion
+                    &&
+                    #region additonal filters
+                    (!HasNFC || p.HasNFC)
+                    &&
+                    (!HasSdCardSlot || p.HasSdCardSlot)
+                    #endregion
+                )
+                .OrderByDescending(p => p.Price)
+                .ThenByDescending(p => p.Manufacturer);
+            return result;
         }
 
         private static List<SelectListItem> PrepareManufacturersList() => new List<SelectListItem>
         {
-            new SelectListItem {Text = "Apple", Value = "Apple"},
-            new SelectListItem {Text = "OnePlus", Value = "OnePlus"},
-            new SelectListItem {Text = "Xiaomi", Value = "Xiaomi"}
+            //contain only lowercase values
+            new SelectListItem {Text = "Apple", Value = "apple"},
+            new SelectListItem {Text = "OnePlus", Value = "oneplus"},
+            new SelectListItem {Text = "Xiaomi", Value = "xiaomi"}
         };
         private static List<SelectListItem> PrepareOperatingSystemsList() => new List<SelectListItem>
         {
-            new SelectListItem {Text = "Android", Value = "Android"},
-            new SelectListItem {Text = "IOS", Value = "IOS"}
+            new SelectListItem {Text = "Android", Value = "android"},
+            new SelectListItem {Text = "IOS", Value = "ios"}
         };
 
         private static List<SelectListItem> PrepareRamList() => new List<SelectListItem>
@@ -138,7 +214,8 @@ namespace EShop.Pages
             new SelectListItem {Text = "100 і менше", Value = "50"},
             new SelectListItem {Text = "101-150", Value = "101"},
             new SelectListItem {Text = "151-200", Value = "151"},
-            new SelectListItem {Text = "201-300", Value = "201"},
+            new SelectListItem {Text = "201-250", Value = "201"},
+            new SelectListItem {Text = "251-300", Value = "201"},
             new SelectListItem {Text = "301 і більше", Value = "301"}
         };
     }
