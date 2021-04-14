@@ -1,10 +1,205 @@
-﻿@page
+﻿@page "{handler?}"
 @model IndexModel
 @{
     ViewData["Title"] = "Eshop - Ваш інтернет-магазин";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="row">
+    @*This div is a filter*@
+    <div class="col-md-3 border border-primary rounded" style="padding: 1rem">
+        <form method="post" asp-page-handler="Search">
+            @*<partial name="./_ManageNav"/>*@
+            <h5>Фільтри</h5>
+            <section class="mb-4">
+                <div class="filter-group">
+                    <div>
+                        <div style="margin-bottom: 0">Виробник</div>
+                        <a href="#" data-toggle="collapse" class="small" data-target="#collapse_manufacturers" data-abc="true" aria-expanded="true" class@*="collapsed"*@>
+                            (Показати / Приховати) <i class="icon-control fa fa-chevron-down"></i>
+                        </a>
+                    </div>
+                    <div class="filter-content collapse show" id="collapse_manufacturers" style="">
+                        @foreach (var item in Model.Manufacturers)
+                        {
+                            <div class="form-check">
+                                <input type="checkbox" value=@item.Value class="form-check-input filled-in" name="SelectedManufacturers" id=@item.Value>
+                                <label class="form-check-label small text-uppercase card-link-secondary" for=@item.Value>@item.Text</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <hr/>
+                <div class="filter-group">
+                    <div>
+                        <div style="margin-bottom: 0">Операційна система</div>
+                        <a href="#" data-toggle="collapse" class="small" data-target="#collapse_os" data-abc="true" aria-expanded="true" class@*="collapsed"*@>
+                            (Показати / Приховати)<i class="icon-control fa fa-chevron-down"></i>
+                        </a>
+                    </div>
+                    <div class="filter-content collapse show" id="collapse_os" style="">
+                        @foreach (var item in Model.OperatingSystems)
+                        {
+                            <div class="form-check">
+                                <input type="checkbox" value=@item.Value class="form-check-input filled-in" name="SelectedOperatingSystems" id=@item.Value>
+                                <label class="form-check-label small text-uppercase card-link-secondary" for=@item.Value>@item.Text</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <hr/>
+                <div class="filter-group">
+                    <div>
+                        <div style="margin-bottom: 0">Об'єм оперативної пам'яті</div>
+                        <a href="#" data-toggle="collapse" class="small" data-target="#collapse_ram" data-abc="true" aria-expanded="true" class="collapsed">
+                            (Показати / Приховати)<i class="icon-control fa fa-chevron-down"></i>
+                        </a>
+                    </div>
+                    <div class="filter-content collapse" id="collapse_ram" style="">
+                        @foreach (var item in Model.RamList)
+                        {
+                            <div class="form-check">
+                                <input type="checkbox" value=@item.Value class="form-check-input filled-in" name="SelectedRamList" id=@item.Value>
+                                <label class="form-check-label small text-uppercase card-link-secondary" for=@item.Value>@item.Text</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <hr/>
+                <div class="filter-group">
+                    <div>
+                        <div style="margin-bottom: 0">Об'єм внутрішньої пам'яті</div>
+                        <a href="#" data-toggle="collapse" class="small" data-target="#collapse_rom" data-abc="true" aria-expanded="true" class="collapsed">
+                            (Показати / Приховати)<i class="icon-control fa fa-chevron-down"></i>
+                        </a>
+                    </div>
+                    <div class="filter-content collapse" id="collapse_rom" style="">
+                        @foreach (var item in Model.RomList)
+                        {
+                            <div class="form-check">
+                                <input type="checkbox" value=@item.Value class="form-check-input filled-in" name="SelectedRamList" id=@item.Value>
+                                <label class="form-check-label small text-uppercase card-link-secondary" for=@item.Value>@item.Text</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <hr/>
+                <div class="filter-group">
+                    <div>
+                        <div style="margin-bottom: 0">Об'єм батареї мАгод</div>
+                        <a href="#" data-toggle="collapse" class="small" data-target="#collapse_battery" data-abc="true" aria-expanded="true" class="collapsed">
+                            (Показати / Приховати)<i class="icon-control fa fa-chevron-down"></i>
+                        </a>
+                    </div>
+                    <div class="filter-content collapse" id="collapse_battery" style="">
+                        @foreach (var item in Model.BatteryCapacities)
+                        {
+                            <div class="form-check">
+                                <input type="radio" value=@item.Value class="form-check-input filled-in" name="SelectedBatteryCapacity" id=@item.Value>
+                                <label class="form-check-label small text-uppercase card-link-secondary" for=@item.Value>@item.Text</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <hr/>
+                <div style="margin-bottom: 0">Ціна</div>
+                <div class="d-flex align-items-center mt-1 pb-0">
+                    <div class="md-form md-outline my-0">
+                        <input id="from" type="number" name="MinPrice" class="form-control form-control-sm">
+                        <label class="small" for="from">Від</label>
+                    </div>
+                    <p class="px-2 mb-0 text-muted"> - </p>
+                    <div class="md-form md-outline my-0">
+                        <input id="to" type="number" name="MaxPrice" class="form-control form-control-sm">
+                        <label class="small" for="to">До</label>
+                    </div>
+                </div>
+                <hr/>
+                <div class="filter-group">
+                    <div>
+                        <div style="margin-bottom: 0">Діагональ дисплея (в дюймах)</div>
+                        <a href="#" data-toggle="collapse" class="small" data-target="#collapse_screenSize" data-abc="true" aria-expanded="true" class="collapsed">
+                            (Показати / Приховати)<i class="icon-control fa fa-chevron-down"></i>
+                        </a>
+                    </div>
+                    <div class="filter-content collapse" id="collapse_screenSize" style="">
+                        @foreach (var item in Model.ScreenSizes)
+                        {
+                            <div class="form-check">
+                                <input type="radio" value=@item.Value class="form-check-input filled-in" name="SelectedScreenSize" id=@item.Value>
+                                <label class="form-check-label small text-uppercase card-link-secondary" for=@item.Value>@item.Text</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <hr/>
+                <div class="filter-group">
+                    <div>
+                        <div style="margin-bottom: 0">Вага смартфону (в грамах)</div>
+                        <a href="#" data-toggle="collapse" class="small" data-target="#collapse_weight" data-abc="true" aria-expanded="true" class="collapsed">
+                            (Показати / Приховати)<i class="icon-control fa fa-chevron-down"></i>
+                        </a>
+                    </div>
+                    <div class="filter-content collapse" id="collapse_weight" style="">
+                        @foreach (var item in Model.Weights)
+                        {
+                            <div class="form-check">
+                                <input type="radio" value=@item.Value class="form-check-input filled-in" name="SelectedWeight" id=@item.Value>
+                                <label class="form-check-label small text-uppercase card-link-secondary" for=@item.Value>@item.Text</label>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <hr/>
+                <div style="margin-bottom: 0">Додаткові характеристики</div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input filled-in" name="HasNFC" asp-for="HasNFC" id="HasNFC">
+                    <label class="form-check-label small text-uppercase card-link-secondary" for="HasNFC">NFC</label>
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" class="form-check-input filled-in" name="HasSdCardSlot" asp-for="HasSdCardSlot" id="HasSdCardSlot">
+                    <label class="form-check-label small text-uppercase card-link-secondary" for="HasNFC">Слот SD-карти</label>
+                </div>
+            </section>
+            <input type="submit" value="Шукати" class="btn btn-primary"/>
+        </form>
+    </div>
+    @*This div is a product list*@
+    <div class="col-md-9">
+        <form class="input-group mb-3" method="post" asp-page-handler="SearchText">
+            <div class="input-group-prepend">
+                <button class="btn btn-primary" type="submit">Пошук за текстом</button>
+            </div>
+            <input type="text" class="form-control border border-primary" placeholder="Введіть назву телефону/Виробника" name="SearchString" aria-label="" aria-describedby="basic-addon1">
+        </form>
+        @if (Model.PaginatedProductsList != null)
+        {
+            @foreach (var item in Model.PaginatedProductsList)
+            {
+                <div class="card card-body">
+                    <div class="media align-items-center align-items-lg-start text-center text-lg-left flex-column flex-lg-row">
+                        <div class="mr-2 mb-3 mb-lg-0"> <img src="data:image/jpg;base64,@Convert.ToBase64String(item.Images.FirstOrDefault()?.ImageData ?? Array.Empty<byte>())" alt="@item.DisplayName" width="150" height="150"> </div>
+                        <div class="media-body">
+                            <h6 class="media-title font-weight-semibold"> <a href="#" data-abc="true"></a>@item.DisplayName</h6>
+                            <ul class="list-inline list-inline-dotted mb-3 mb-lg-2">
+                                <li class="list-inline-item"><a href="#" class="text-muted" data-abc="true">Смартфон</a></li>
+                                <li class="list-inline-item"><a href="#" class="text-muted" data-abc="true">@item.Manufacturer</a></li>
+                            </ul>
+                            <p class="mb-3">@item.Description</p>
+                        </div>
+                        <div class="mt-3 mt-lg-0 ml-lg-3 text-center">
+                            <h3 class="mb-2 font-weight-semibold">₴@item.Price грн.</h3>
+                            <button type="button" class="btn btn-success btn-block mt-4"> Додати в корзину</button>
+                            <a class="btn btn-primary btn-block mt-4" asp-page="/Customer/Product" asp-route-id="@item.Id"> Переглянути</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        @if (Model.PaginatedProductsList == null || !Model.PaginatedProductsList.Any())
+        {
+            <h1>Нажаль, за вашим запитом нічого не знайдено</h1>
+            <p><a asp-page="/Customer/Feedback/FeedbackPage">Зверніться до служби підтримки</a> або <a asp-page="/Index">видаліть фільтри</a> </p>
+        }
+    </div>
 </div>
+
