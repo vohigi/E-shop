@@ -25,8 +25,9 @@ namespace EShop.Pages.Order
         public OrderEntity Order { get; set; }
         
         public bool JustCreated { get; set; }
+        public bool JustPaid { get; set; }
         
-        public async Task<IActionResult> OnGet(Guid? id, bool justCreated = false)
+        public async Task<IActionResult> OnGet(Guid? id, bool justCreated = false, bool justPaid = false)
         {
             if (!id.HasValue)
             {
@@ -34,6 +35,7 @@ namespace EShop.Pages.Order
             }
 
             JustCreated = justCreated;
+            JustPaid = justPaid;
             var user = await _userManager.GetUserAsync(Request.HttpContext.User);
             CurrentUser = user;
             var order = await _shopContext.Orders.Include(x => x.ShoppingCart).ThenInclude(x => x.CartItems)

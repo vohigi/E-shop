@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using EShop.Data;
 using EShop.Data.Entities;
@@ -70,7 +71,11 @@ namespace EShop.Pages.Order
             };
             _shopContext.ShoppingCarts.Update(shoppingCart);
             await _shopContext.SaveChangesAsync();
-            return RedirectToPage("/Index");
+            if (PaymentTypeId.Equals(Guid.Parse("a213f4eb-e6ac-4ae5-8657-ce6dc089cbff")))
+            {
+                return RedirectToPage("/Customer/PaymentSystem", new {id = shoppingCart.OrderId});
+            }
+            return RedirectToPage("/Order/Details", new {id = shoppingCart.OrderId, justCreated = true});
         }
     }
 }

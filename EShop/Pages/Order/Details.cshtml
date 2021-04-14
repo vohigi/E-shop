@@ -1,7 +1,13 @@
 ﻿@page "{id:Guid}"
 @model EShop.Pages.Order.Details
-
-<h4 class="mb-4">@(Model.JustCreated ? $"Замовлення {Model.Order.Id} успішно стоврено. Дякуємо що обрали наш магазин!" : "Деталі замовлення")</h4>
+<h4 class="mb-4">Деталі замовлення</h4>
+@if (Model.JustPaid)
+{
+    <h5 class="mb-4 border border-success" style="padding: 1rem;">@($"Оплата за замовлення {Model.Order.Id} успішно прийнята. Дякуємо, що обрали наш магазин!")</h5>
+} else if (Model.JustCreated)
+{
+    <h5 class="mb-4 border border-warning" style="padding: 1rem;">@($"Замовлення {Model.Order.Id} успішно створено. Дякуємо що обрали наш магазин!")</h5>
+}
 <div class="row" style="margin-left: 0; margin-right: 0;">
     <h5>Товари</h5>
     <table class="table">
