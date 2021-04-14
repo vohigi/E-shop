@@ -19,7 +19,7 @@
             <th></th>
         </tr>
         </thead>
-        <tbody>
+        <tbody class="table-striped">
         @if (Model.ShoppingCart.CartItems != null && Model.ShoppingCart.CartItems.Count > 0)
         {
             @foreach (var item in Model.ShoppingCart.CartItems)
@@ -36,7 +36,11 @@
                         @Html.DisplayFor(modelItem => item.Item.DisplayName)
                     </td>
                     <td class="align-middle">
-                        @Html.DisplayFor(modelItem => item.Quantity)
+                        <form class="form-inline" method="post" asp-page-handler="ChangeCount">
+                            <input type="hidden" name="id" value="@item.Id"/>
+                            <input class="form-control" type="number" name="NewQuantity" value="@item.Quantity" style="width: 80px"/>
+                            <button type="submit" class="btn btn-outline-info ml-2">Змінити</button>
+                        </form>
                     </td>
                     <td class="align-middle">
                         @Html.DisplayFor(modelItem => item.Item.Price) * @Html.DisplayFor(modelItem => item.Quantity) = @Html.DisplayFor(modelItem => item.TotalPrice)
@@ -58,7 +62,7 @@
                 </td>
             </tr>
         }
-        <tr>
+        <tr class="table-primary">
             <td>
 
             </td>
@@ -69,11 +73,11 @@
 
             </td>
             <td class="align-middle">
-                Загальна вартість елементів в кошику
+                <span class="font-weight-bold">Загальна вартість елементів в кошику</span>
             </td>
 
             <td class="align-middle">
-                @Model.ShoppingCart.TotalPrice
+                <span class="font-weight-bold">@Model.ShoppingCart.TotalPrice</span>
             </td>
         </tr>
         </tbody>

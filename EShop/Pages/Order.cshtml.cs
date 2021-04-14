@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting.Internal;
 
 namespace EShop.Pages
 {
@@ -20,6 +21,7 @@ namespace EShop.Pages
             _shopContext = shopContext;
             _userManager = userManager;
         }
+        public ApplicationUser CurrentUser { get; set; }
         public ShoppingCartEntity ShoppingCart { get; set; }
         public List<ShippingTypeEntity> ShippingTypes { get; set; }
         public List<PaymentTypeEntity> PaymentTypes { get; set; }
@@ -37,7 +39,8 @@ namespace EShop.Pages
             {
                 return RedirectToPage("/Index");
             }
-
+            var user = await _userManager.GetUserAsync(Request.HttpContext.User);
+            CurrentUser = user;
             var shoppingCart = await _shopContext.ShoppingCarts.Include(x => x.CartItems).ThenInclude(x => x.Item).ThenInclude(x => x.Images)
                 .FirstOrDefaultAsync(x => x.Id == id);
             ShoppingCart = shoppingCart;

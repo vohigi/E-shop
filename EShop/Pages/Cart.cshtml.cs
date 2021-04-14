@@ -24,7 +24,8 @@ namespace EShop.Pages
         }
         
         public ShoppingCartEntity ShoppingCart { get; set; }
-        
+        [BindProperty]
+        public int NewQuantity { get; set; }
         public async Task<IActionResult> OnGet()
         {
             var userId = _userManager.GetUserId(Request.HttpContext.User);
@@ -62,6 +63,26 @@ namespace EShop.Pages
             if (existingCartItem == null) 
                 return RedirectToPage("./Cart");
             _shopContext.CartItems.Remove(existingCartItem);
+            await _shopContext.SaveChangesAsync();
+            return RedirectToPage("./Cart");
+        }
+        public async Task<IActionResult> OnPostChangeCount(Guid? id)
+        {
+            var userId = _userManager.GetUserId(Request.HttpContext.User);
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToPage("/Account/Login",new { area = "Identity" });
+            }
+            var existingShoppingCart =
+                await _shopContext.ShoppingCarts.Include(x => x.CartItems).ThenInclude(x => x.Item)
+                    .ThenInclude(x => x.Images).FirstOrDefaultAsync(
+                        x =>
+                            x.CustomerId == userId && !x.OrderId.HasValue);
+            var existingCartItem = existingShoppingCart.CartItems?.FirstOrDefault(x => x.Id == id);
+            if (existingCartItem == null) 
+                return RedirectToPage("./Cart");
+            existingCartItem.Quantity = NewQuantity;
+            _shopContext.CartItems.Update(existingCartItem);
             await _shopContext.SaveChangesAsync();
             return RedirectToPage("./Cart");
         }
