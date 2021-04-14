@@ -189,7 +189,7 @@
                         <div class="mt-3 mt-lg-0 ml-lg-3 text-center">
                             <h3 class="mb-2 font-weight-semibold">₴@item.Price грн.</h3>
                             <button type="button" class="btn btn-success btn-block mt-4"> Додати в корзину</button>
-                            <button type="button" class="btn btn-primary btn-block mt-4"> Переглянути</button>
+                            <a class="btn btn-primary btn-block mt-4" asp-page="/Customer/Product" asp-route-id="@item.Id"> Переглянути</a>
                         </div>
                     </div>
                 </div>
