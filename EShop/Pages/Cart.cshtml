@@ -89,13 +89,13 @@
         <div class="col-md-3">
             @if (Model.ShoppingCart.CartItems?.Count > 0)
             {
-                <a asp-page="/Order" asp-route-id="@Model.ShoppingCart.Id" class="btn btn-success">
+                <a asp-page="/Order/Create" asp-route-id="@Model.ShoppingCart.Id" class="btn btn-success">
                     Оформити замолення <i class="fas fa-arrow-right"></i>
                 </a>
             }
             else
             {
-                <button asp-page="/Order" asp-route-id="@Model.ShoppingCart.Id" class="btn btn-success" disabled>
+                <button asp-page="/Order/Create" asp-route-id="@Model.ShoppingCart.Id" class="btn btn-success" disabled>
                     Оформити замолення <i class="fas fa-arrow-right"></i>
                 </button>
             }

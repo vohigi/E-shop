@@ -1,0 +1,99 @@
+﻿@page "{id:Guid}"
+@model EShop.Pages.Order.Details
+
+<h4 class="mb-4">@(Model.JustCreated ? $"Замовлення {Model.Order.Id} успішно стоврено. Дякуємо що обрали наш магазин!" : "Деталі замовлення")</h4>
+<div class="row" style="margin-left: 0; margin-right: 0;">
+    <h5>Товари</h5>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>
+
+            </th>
+            <th>
+                Назва
+            </th>
+            <th>
+                Кількість
+            </th>
+            <th>Ціна</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody class="table-striped">
+        @foreach (var item in Model.Order.ShoppingCart.CartItems)
+        {
+            <tr>
+                <td class="align-middle">
+                    @if (item.Item.Images != null && item.Item.Images.Count > 0)
+                    {
+                        <img class="img-thumbnail rounded management-list-image" src="data:image/jpg;base64,@Convert.ToBase64String(item.Item.Images?.FirstOrDefault()?.ImageData ?? Array.Empty<byte>())" alt="@item.Item.DisplayName"/>
+                    }
+                </td>
+
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.Item.DisplayName)
+                </td>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.Quantity)
+                </td>
+                <td class="align-middle">
+                    @Html.DisplayFor(modelItem => item.TotalPrice)
+                </td>
+            </tr>
+        }
+        <tr class="table-primary">
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td>
+
+            </td>
+            <td class="align-middle ">
+                <span class="font-weight-bold">Загальна вартість:</span>
+            </td>
+
+            <td class="align-middle">
+                <span class="font-weight-bold">@Model.Order.TotalPrice</span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <hr/>
+    <div class="row mt-5 w-100">
+        <div class="col-sm">
+
+            <h5>Спосіб доставки</h5>
+
+            <div class="row" style="margin-left: 0; margin-right: 0;">
+                @Model.Order.ShippingType.Name 
+            </div>
+            <h5>Оплата</h5>
+            <div class="row" style="margin-left: 0; margin-right: 0;">
+                @Model.Order.PaymentType.Name 
+            </div>
+        </div>
+        <div class="col-sm">
+            <h5>Дані замовника</h5>
+            <p class="mb-3">
+                <span class="font-weight-bold">ПІБ:</span> @Model.CurrentUser.LastName @Model.CurrentUser.FirstName @Model.CurrentUser.SecondName
+            </p>
+            <p class="mb-3">
+                <span class="font-weight-bold">Email:</span> @Model.CurrentUser.Email
+            </p>
+            <p class="mb-3">
+                <span class="font-weight-bold">Телефон:</span> @Model.CurrentUser.PhoneNumber
+            </p>
+            <p class="mb-3">
+                <span class="font-weight-bold">Адреса:</span> @Model.CurrentUser.AddressText
+            </p>
+        </div>
+
+    </div>
+    <div class="row mt-5" style="margin-left: 0; margin-right: 0;">
+        <a asp-page="/Index" class="btn btn-outline-primary mt-5"><i class="fas fa-arrow-left"></i> До списку замовлень</a>
+    </div>
+</div>

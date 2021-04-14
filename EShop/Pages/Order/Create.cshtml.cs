@@ -7,16 +7,15 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting.Internal;
 
-namespace EShop.Pages
+namespace EShop.Pages.Order
 {
-    public class Order : PageModel
+    public class Create : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ShopContext _shopContext;
 
-        public Order(ShopContext shopContext, UserManager<ApplicationUser> userManager)
+        public Create(ShopContext shopContext, UserManager<ApplicationUser> userManager)
         {
             _shopContext = shopContext;
             _userManager = userManager;
@@ -69,7 +68,7 @@ namespace EShop.Pages
             };
             _shopContext.ShoppingCarts.Update(shoppingCart);
             await _shopContext.SaveChangesAsync();
-            return RedirectToPage("./Index");
+            return RedirectToPage("/Index");
         }
     }
 }
