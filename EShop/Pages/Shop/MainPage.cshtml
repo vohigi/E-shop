@@ -13,9 +13,10 @@
         <section class="mb-4">
             <div class="filter-group">
                 <div>
-                    <a href="#" data-toggle="collapse" data-target="#collapse_manufacturers" data-abc="true" aria-expanded="true" class@*="collapsed"*@> <i class="icon-control fa fa-chevron-down"></i>
-                        <h6>Виробник </h6>
-                    </a> 
+                    <div style="margin-bottom: 0">Виробник</div>
+                    <a href="#" data-toggle="collapse" class="small" data-target="#collapse_manufacturers" data-abc="true" aria-expanded="true" class@*="collapsed"*@> 
+                        (Показати / Приховати) <i class="icon-control fa fa-chevron-down"></i>
+                    </a>
                 </div>
                 <div class="filter-content collapse show" id="collapse_manufacturers" style="">
                     @foreach (var item in Model.Manufacturers)
@@ -27,6 +28,61 @@
                     }
                 </div>
             </div>
+            <hr/>
+            <div class="filter-group">
+                <div>
+                    <div style="margin-bottom: 0">Операційна система</div>
+                    <a href="#" data-toggle="collapse" class="small" data-target="#collapse_os" data-abc="true" aria-expanded="true" class@*="collapsed"*@> 
+                        (Показати / Приховати)<i class="icon-control fa fa-chevron-down"></i>
+                    </a>
+                </div>
+                <div class="filter-content collapse show" id="collapse_os" style="">
+                    @foreach (var item in Model.OperatingSystems)
+                    {
+                        <div class="form-check">
+                            <input type="checkbox" value=@item.Value class="form-check-input filled-in" name="SelectedOperatingSystems" id=@item.Value>
+                            <label class="form-check-label small text-uppercase card-link-secondary" for=@item.Value>@item.Text</label>
+                        </div>
+                    }
+                </div>
+            </div>
+            <hr/>
+            <div class="filter-group">
+                <div>
+                    <div style="margin-bottom: 0">Об'єм оперативної пам'яті</div>
+                    <a href="#" data-toggle="collapse" class="small" data-target="#collapse_ram" data-abc="true" aria-expanded="true" class="collapsed"> 
+                        (Показати / Приховати)<i class="icon-control fa fa-chevron-down"></i>
+                    </a>
+                </div>
+                <div class="filter-content collapse" id="collapse_ram" style="">
+                    @foreach (var item in Model.RamList)
+                    {
+                        <div class="form-check">
+                            <input type="checkbox" value=@item.Value class="form-check-input filled-in" name="SelectedRamList" id=@item.Value>
+                            <label class="form-check-label small text-uppercase card-link-secondary" for=@item.Value>@item.Text</label>
+                        </div>
+                    }
+                </div>
+            </div>
+            <hr/>
+            <div class="filter-group">
+                <div>
+                    <div style="margin-bottom: 0">Об'єм внутрішньої пам'яті</div>
+                    <a href="#" data-toggle="collapse" class="small" data-target="#collapse_rom" data-abc="true" aria-expanded="true" class="collapsed"> 
+                        (Показати / Приховати)<i class="icon-control fa fa-chevron-down"></i>
+                    </a>
+                </div>
+                <div class="filter-content collapse" id="collapse_rom" style="">
+                    @foreach (var item in Model.RomList)
+                    {
+                        <div class="form-check">
+                            <input type="checkbox" value=@item.Value class="form-check-input filled-in" name="SelectedRamList" id=@item.Value>
+                            <label class="form-check-label small text-uppercase card-link-secondary" for=@item.Value>@item.Text</label>
+                        </div>
+                    }
+                </div>
+            </div>
+            <hr/>
             <div class="form-check">
                 <input type="checkbox" class="form-check-input filled-in" name="HasNFC" asp-for="HasNFC" id="HasNFC">
                 <label class="form-check-label small text-uppercase card-link-secondary" for="HasNFC">NFC</label>
