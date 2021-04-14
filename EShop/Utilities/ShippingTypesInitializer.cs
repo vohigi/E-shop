@@ -18,7 +18,7 @@ namespace EShop.Utilities
             shopContext.ShippingTypes.Add(new ShippingTypeEntity()
             {
                 Name = "Самовивіз з магазину",
-                Description = "Самовивіз за адресою вул. Ненавижу интернет-магазины 5. Графік роботи: з 02.00 до 05.00"
+                Description = "Самовивіз за адресою вул. Воздвиженська, 123. Графік роботи: з 02.00 до 05.00"
             });
             shopContext.ShippingTypes.Add(new ShippingTypeEntity()
             {

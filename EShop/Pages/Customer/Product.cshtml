@@ -6,12 +6,14 @@
     @if (Model.ProductEntity != null)
     {
         <div class="row" style="width: 100%; padding: 2rem">
+            
             <div class="col-md-5">
-                @if(Model.ProductEntity.Images != null && Model.ProductEntity.Images.Any()){
+                @if (Model.ProductEntity.Images != null && Model.ProductEntity.Images.Any())
+                {
                     @if (Model.ProductEntity.Images.Count > 1)
                     {
                         <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-                        
+
                             <div class="carousel-inner">
                                 @foreach (var image in Model.ProductEntity.Images)
                                 {

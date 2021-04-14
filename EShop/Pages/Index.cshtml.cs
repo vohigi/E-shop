@@ -168,12 +168,12 @@ namespace EShop.Pages
                     #endregion
                     &&
                     #region RAM adapter
-                    (!p.Ram.HasValue || SelectedRamList == null || !SelectedRamList.Any()
+                    (SelectedRamList == null || !SelectedRamList.Any()
                     || SelectedRamList.Contains(p.Ram.Value))
                     #endregion
                     &&
                     #region ROM adapter
-                    (!p.Rom.HasValue || SelectedRomList == null || !SelectedRomList.Any()
+                    (SelectedRomList == null || !SelectedRomList.Any()
                      || SelectedRomList.Contains(p.Rom.Value))
                     #endregion
                     &&
