@@ -27,11 +27,11 @@ namespace EShop.Pages.Management.Products
         public async Task<IActionResult> OnGetAsync(string searchString, int pageSize = 6, int page = 1)
         {
             CurrentFilter = searchString;
-            Products = await PaginatedList<ProductEntity>.CreateAsync(
-                _shopContext.Products.Include(x => x.Images).AsNoTracking().Where(s =>
+            Products = PaginatedList<ProductEntity>.CreateAsync(
+                await _shopContext.Products.Include(x => x.Images).AsNoTracking().Where(s =>
                     string.IsNullOrEmpty(searchString) ||
                     (s.DisplayName.ToUpper().Contains(searchString.ToUpper()) ||
-                     s.Description.ToUpper().Contains(searchString.ToUpper()))), page, pageSize);
+                     s.Description.ToUpper().Contains(searchString.ToUpper()))).ToListAsync(), page, pageSize);
             return Page();
         }
     }

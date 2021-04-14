@@ -33,14 +33,14 @@ namespace EShop.Pages.Management.Administration
         public async Task<IActionResult> OnGet(int pageSize = 6, int page = 1)
         {
             var isRead = !string.IsNullOrEmpty(IsReadValue) && IsReadValue.Contains("true");
-            UserFeedbacks = await PaginatedList<FeedbackEntity>.CreateAsync(
-                _shopContext.Feedbacks.
+            UserFeedbacks = PaginatedList<FeedbackEntity>.CreateAsync(
+                await _shopContext.Feedbacks.
                     AsNoTracking()
                     .Where(
                         x => 
                             x.IsRead.Equals(isRead) 
                             && string.IsNullOrEmpty(SearchString) 
-                             || x.CustomerEmail.Contains(SearchString) && x.IsRead.Equals(isRead)) 
+                             || x.CustomerEmail.Contains(SearchString) && x.IsRead.Equals(isRead)).ToListAsync() 
                 , page, pageSize);
             foreach (var feedbackEntity in UserFeedbacks)
             {

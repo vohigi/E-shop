@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EShop.Data;
 using EShop.Data.Entities;
+using EShop.Data.Helpers;
 using EShop.Utilities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -61,6 +62,7 @@ namespace EShop.Pages
         
         [BindProperty]
         public bool HasNFC { get; set; }
+        public string Specifications { get; set; }
         [BindProperty]
         public bool HasSdCardSlot { get; set; }
         [BindProperty]
@@ -72,8 +74,14 @@ namespace EShop.Pages
         
         public async Task<IActionResult> OnGet(int pageSize = 6, int page = 1)
         {
-            PaginatedProductsList = await PaginatedList<ProductEntity>.CreateAsync(GetProductEntities(), page, pageSize);
+            var productsEntity = await GetProductEntities().ToListAsync();
+            foreach (var entity in productsEntity)
+            {
+                entity.Description = TextHelper.GetSpecificationsString(entity);
+            }
 
+            
+            PaginatedProductsList = PaginatedList<ProductEntity>.CreateAsync(productsEntity, page, pageSize);
             Manufacturers = PrepareManufacturersList();
             OperatingSystems = PrepareOperatingSystemsList();
             RamList = PrepareRamList();
