@@ -60,12 +60,16 @@ namespace EShop.Pages
         public bool HasNFC { get; set; }
         [BindProperty]
         public bool HasSdCardSlot { get; set; }
+        [BindProperty]
+        [StringLength(30, ErrorMessage = "{0} має вміщати символів більше ніж {2} та менше ніж {1}.", MinimumLength = 3)]
+        public string SearchString { get; set; }
         public PaginatedList<ProductEntity> PaginatedProductsList { get; set; }
+        
         private List<ProductEntity> ProductList { get; set; }
         
-        public async Task<IActionResult> OnGet(string searchString, int pageSize = 6, int page = 1)
+        public async Task<IActionResult> OnGet(int pageSize = 6, int page = 1)
         {
-            PaginatedProductsList = await PaginatedList<ProductEntity>.CreateAsync(GetProductEntities(searchString), page, pageSize);
+            PaginatedProductsList = await PaginatedList<ProductEntity>.CreateAsync(GetProductEntities(), page, pageSize);
 
             Manufacturers = PrepareManufacturersList();
             OperatingSystems = PrepareOperatingSystemsList();
@@ -78,22 +82,31 @@ namespace EShop.Pages
             HasSdCardSlot = false;
             return Page();
         }
-
-        public async Task<IActionResult> OnPostSearch(string searchString)
+        public async Task<IActionResult> OnPostSearchText()
         {
-            return await OnGet(searchString);
+            
+            return await OnGet();
+        }
+        
+        public async Task<IActionResult> OnPostSearch()
+        {
+            return await OnGet();
         }
 
-        private IQueryable<ProductEntity> GetProductEntities(string searchString)
+        /*private void SetBindsToNull()
+        {
+            return await OnGet();
+        }*/
+        private IQueryable<ProductEntity> GetProductEntities()
         {
             var result = _shopContext.Products
                 .AsNoTracking()
                 .Include(i => i.Images)
                 .Where(p =>
                     #region search string adapter
-                    (string.IsNullOrEmpty(searchString) || searchString.Length < 3 
-                     || p.DisplayName.ToLower().Contains(searchString.ToLower()) 
-                     || p.Manufacturer.ToLower().Contains(searchString.ToLower()))
+                    (string.IsNullOrEmpty(SearchString) || SearchString.Length < 3 
+                     || p.DisplayName.ToLower().Contains(SearchString.ToLower()) 
+                     || p.Manufacturer.ToLower().Contains(SearchString.ToLower()))
                     #endregion
                     &&
                     #region manufacturer adapter

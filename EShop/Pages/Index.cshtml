@@ -165,7 +165,12 @@
     </div>
     @*This div is a product list*@
     <div class="col-md-9">
-        
+        <form class="input-group mb-3" method="post" asp-page-handler="SearchText">
+            <div class="input-group-prepend">
+                <button class="btn btn-primary" type="submit">Пошук за текстом</button>
+            </div>
+            <input type="text" class="form-control border border-primary" placeholder="Введіть назву телефону/Виробника" name="SearchString" aria-label="" aria-describedby="basic-addon1">
+        </form>
         @if (Model.PaginatedProductsList != null)
         {
             @foreach (var item in Model.PaginatedProductsList)
