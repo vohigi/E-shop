@@ -71,11 +71,11 @@
             <fieldset class="form-group">
                 <div class="row">
                     <div class="col-sm-10">
-                        @foreach (var shippingType in Model.ShippingTypes)
+                        @foreach(var (shippingType, i) in Model.ShippingTypes.Select((value, i) => ( value, i )))
                         {
                             <div class="row border border-primary rounded align-middle mb-4 p-2" style="min-height: 100px; cursor: pointer" onclick="$('#@shippingType.Id').prop('checked', true).change();">
                                 <div class="col-sm-2 d-flex">
-                                    <input class="my-auto" type="radio" name="ShippingTypeId" id="@shippingType.Id" value="@shippingType.Id">
+                                    <input class="my-auto" type="radio" name="ShippingTypeId" id="@shippingType.Id" value="@shippingType.Id" @(i==0?"checked":"")>
                                 </div>
                                 <div class="col-sm-8 d-flex">
                                     <label class="my-auto" for="@shippingType.Id">
@@ -92,11 +92,11 @@
             <fieldset class="form-group ">
                 <div class="row w-100">
                     <div class="col-sm-10">
-                        @foreach (var paymentType in Model.PaymentTypes)
+                        @foreach (var (paymentType, i) in Model.PaymentTypes.Select((value, i) => ( value, i )))
                         {
                             <div class="row border border-primary rounded align-middle mb-4 p-2" style="min-height: 100px; cursor: pointer" onclick="$('#@paymentType.Id').prop('checked', true).change();">
                                 <div class="col-sm-2 d-flex">
-                                    <input class="my-auto" type="radio" name="PaymentTypeId" id="@paymentType.Id" value="@paymentType.Id">
+                                    <input class="my-auto" type="radio" name="PaymentTypeId" id="@paymentType.Id" value="@paymentType.Id" @(i==0?"checked":"")>
                                 </div>
                                 <div class="col-sm-8 d-flex">
                                     <label class="my-auto" for="@paymentType.Id">
