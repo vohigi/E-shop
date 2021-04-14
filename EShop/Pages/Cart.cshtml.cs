@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using EShop.Data;
 using EShop.Data.Entities;
 using Microsoft.AspNetCore.Identity;
@@ -41,6 +44,26 @@ namespace EShop.Pages
 
             ShoppingCart = existingShoppingCart;
             return Page();
+        }
+
+        public async Task<IActionResult> OnPostRemoveFromCart(Guid? id)
+        {
+            var userId = _userManager.GetUserId(Request.HttpContext.User);
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToPage("/Account/Login");
+            }
+            var existingShoppingCart =
+                await _shopContext.ShoppingCarts.Include(x => x.CartItems).ThenInclude(x => x.Item)
+                    .ThenInclude(x => x.Images).FirstOrDefaultAsync(
+                        x =>
+                            x.CustomerId == userId && !x.OrderId.HasValue);
+            var existingCartItem = existingShoppingCart.CartItems?.FirstOrDefault(x => x.Id == id);
+            if (existingCartItem == null) 
+                return RedirectToPage("./Cart");
+            _shopContext.CartItems.Remove(existingCartItem);
+            await _shopContext.SaveChangesAsync();
+            return RedirectToPage("./Cart");
         }
     }
 }

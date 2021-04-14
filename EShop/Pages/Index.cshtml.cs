@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using EShop.Data;
 using EShop.Data.Entities;
 using EShop.Utilities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -17,9 +18,11 @@ namespace EShop.Pages
     public class IndexModel : PageModel
     {
         private readonly ShopContext _shopContext;
-        public IndexModel(ShopContext shopContext)
+        private readonly UserManager<ApplicationUser> _userManager;
+        public IndexModel(ShopContext shopContext, UserManager<ApplicationUser> userManager)
         {
             _shopContext = shopContext;
+            _userManager = userManager;
         }
         [BindProperty]
         public List<SelectListItem> Manufacturers { get; set; }
@@ -82,6 +85,43 @@ namespace EShop.Pages
             HasSdCardSlot = false;
             return Page();
         }
+        public async Task<IActionResult> OnPostAddToCart(Guid? id)
+        {
+            var userId = _userManager.GetUserId(Request.HttpContext.User);
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToPage("/Account/Login");
+            }
+
+            var product = await _shopContext.Products.FirstOrDefaultAsync(x => x.Id == id);
+            var existingShoppingCart =
+                await _shopContext.ShoppingCarts.Include(x => x.CartItems).ThenInclude(x => x.Item)
+                    .ThenInclude(x => x.Images).FirstOrDefaultAsync(
+                        x =>
+                            x.CustomerId == userId && !x.OrderId.HasValue);
+            var existingCartItem = existingShoppingCart.CartItems?.FirstOrDefault(x => x.ItemId == id);
+            if (existingCartItem != null)
+            {
+                existingCartItem.Quantity++;
+                _shopContext.CartItems.Update(existingCartItem);
+                await _shopContext.SaveChangesAsync();
+                return RedirectToPage("./Index");
+            }
+
+            if (existingShoppingCart.CartItems == null)
+            {
+                existingShoppingCart.CartItems = new List<CartItemEntity>();
+            }
+            existingShoppingCart.CartItems.Add(new CartItemEntity()
+            {
+                Item = product,
+                Quantity = 1
+            });
+            _shopContext.ShoppingCarts.Update(existingShoppingCart);
+            await _shopContext.SaveChangesAsync();
+            return RedirectToPage("./Index");
+        }
+
         public async Task<IActionResult> OnPostSearchText()
         {
             

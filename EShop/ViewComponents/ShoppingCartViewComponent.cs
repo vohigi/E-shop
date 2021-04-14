@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using EShop.Data;
 using EShop.Data.Entities;
@@ -42,7 +43,7 @@ namespace EShop.ViewComponents
                 return View(0);
             }
 
-            return View(existingShoppingCart.CartItems?.Count ?? 0);
+            return View(existingShoppingCart.CartItems?.Sum(x=>x.Quantity) ?? 0);
         }
     }
 }

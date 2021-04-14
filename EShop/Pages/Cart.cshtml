@@ -1,4 +1,4 @@
-﻿@page
+﻿@page "{handler?}/{id?}"
 @model EShop.Pages.Cart
 
 <h4>Кошик</h4>
@@ -32,17 +32,20 @@
                         }
                     </td>
 
-                    <td>
+                    <td class="align-middle">
                         @Html.DisplayFor(modelItem => item.Item.DisplayName)
                     </td>
-                    <td>
+                    <td class="align-middle">
                         @Html.DisplayFor(modelItem => item.Quantity)
                     </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Item.Price) * @Html.DisplayFor(modelItem => item.Quantity)
+                    <td class="align-middle">
+                        @Html.DisplayFor(modelItem => item.Item.Price) * @Html.DisplayFor(modelItem => item.Quantity) = @Html.DisplayFor(modelItem => item.TotalPrice)
                     </td>
-                    <td>
-                        <a asp-page="./Delete" asp-route-id="@item.Id">Видалити</a>
+                    <td class="align-middle">
+                        <form method="post" asp-page-handler="RemoveFromCart" style="display: inline-block">
+                            <input type="hidden" name="id" value="@item.Id"/>
+                            <button type="submit" class="btn btn-outline-danger btn-block"> Видалити</button>
+                        </form>
                     </td>
                 </tr>
             }
@@ -65,24 +68,34 @@
             <td>
 
             </td>
-            <td>
+            <td class="align-middle">
                 Загальна вартість елементів в кошику
             </td>
 
-            <td>
+            <td class="align-middle">
                 @Model.ShoppingCart.TotalPrice
             </td>
         </tr>
         </tbody>
     </table>
-    <div class="row justify-content-around w-100">
+    <div class="row justify-content-around w-100 mt-5">
         <div class="col-md-3">
-            <a asp-page="/Index" class="btn btn-primary"><i class="fas fa-arrow-left"></i> До каталогу</a>
+            <a asp-page="/Index" class="btn btn-outline-primary"><i class="fas fa-arrow-left"></i> До каталогу</a>
         </div>
         <div class="col-md-3">
-            <form method="post">
-                <button type="submit" class="btn btn-primary">Оформити замолення</button>
-            </form>
+            @if (Model.ShoppingCart.CartItems?.Count > 0)
+            {
+                <a asp-page="/Order" asp-route-id="@Model.ShoppingCart.Id" class="btn btn-success">
+                    Оформити замолення <i class="fas fa-arrow-right"></i>
+                </a>
+            }
+            else
+            {
+                <button asp-page="/Order" asp-route-id="@Model.ShoppingCart.Id" class="btn btn-success" disabled>
+                    Оформити замолення <i class="fas fa-arrow-right"></i>
+                </button>
+            }
+            
         </div>
     </div>
 </div>
