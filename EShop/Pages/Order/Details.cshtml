@@ -75,6 +75,17 @@
             <div class="row" style="margin-left: 0; margin-right: 0;">
                 @Model.Order.PaymentType.Name
             </div>
+            <h5>Сплачено</h5>
+            <div class="row" style="margin-left: 0; margin-right: 0;">
+                @if (Model.Order.IsPaid)
+                {
+                    <span>Так <i class="fas fa-check text-success"></i></span>
+                }
+                else
+                {
+                    <span>Ні <i class="fas fa-times text-danger"></i></span>
+                }
+            </div>
             <h5>Дата створеня</h5>
             <div class="row" style="margin-left: 0; margin-right: 0;">
                 @TimeZoneInfo.ConvertTimeFromUtc(Model.Order.CreatedAt, TimeZoneInfo.FindSystemTimeZoneById("FLE Standard Time")).ToString("dd MMMM yyyy HH:mm")
