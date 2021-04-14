@@ -57,6 +57,7 @@ namespace EShop
             services.AddDefaultIdentity<ApplicationUser>()
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<IdentityContext>();
+            services.AddSession();
             services.AddRazorPages();
         }
 
@@ -84,7 +85,7 @@ namespace EShop
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseSession();
             app.UseEndpoints(endpoints =>
             { endpoints.MapRazorPages(); });
         }

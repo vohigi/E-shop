@@ -23,6 +23,7 @@
                         <a class="nav-link text-dark" asp-area="" asp-page="/Index">Домашня сторінка</a>
                     </li>
                 </ul>
+                @await  Component.InvokeAsync("ShoppingCart")
                 <partial name="_LoginPartial"/>
             </div>
         </div>
@@ -48,6 +49,7 @@
 <script src="~/lib/jquery/dist/jquery.min.js"></script>
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bs-custom-file-input/dist/bs-custom-file-input.min.js"></script>
+<script src="https://kit.fontawesome.com/92d10607b6.js" crossorigin="anonymous"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
 
 @await RenderSectionAsync("Scripts", required: false)

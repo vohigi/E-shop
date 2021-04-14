@@ -14,7 +14,6 @@ namespace EShop.Data.Entities
         public Guid? ShippingTypeId { get; set; }
         public double TotalPrice { get; set; }
         public ShoppingCartEntity ShoppingCart { get; set; }
-        public Guid ShoppingCartId { get; set; }
     }
     public class OrderEntityConfiguration : IdentifiedEntityConfiguration<OrderEntity>
     {
@@ -32,9 +31,8 @@ namespace EShop.Data.Entities
                 .HasPrincipalKey(x => x.Id)
                 .OnDelete(DeleteBehavior.NoAction);
             builder.HasOne(x => x.ShoppingCart)
-                .WithMany()
-                .HasForeignKey(x => x.ShoppingCartId)
-                .HasPrincipalKey(x => x.Id)
+                .WithOne(x=>x.Order)
+                .HasForeignKey<ShoppingCartEntity>(x => x.OrderId)
                 .OnDelete(DeleteBehavior.NoAction);
         }
     } 
