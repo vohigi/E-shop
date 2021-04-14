@@ -5,6 +5,8 @@
 @{
     Layout = "Shared/_Layout";
 }
+
+@*Сторінка для тестування*@
 <div class="row">
     <div class="col-md-3 border border-primary rounded" style="padding: 1rem">
         <form method="post">
@@ -83,9 +85,81 @@
                 </div>
             </div>
             <hr/>
+            <div class="filter-group">
+                <div>
+                    <div style="margin-bottom: 0">Об'єм батареї мАгод</div>
+                    <a href="#" data-toggle="collapse" class="small" data-target="#collapse_battery" data-abc="true" aria-expanded="true" class="collapsed"> 
+                        (Показати / Приховати)<i class="icon-control fa fa-chevron-down"></i>
+                    </a>
+                </div>
+                <div class="filter-content collapse" id="collapse_battery" style="">
+                    @foreach (var item in Model.BatteryCapacities)
+                    {
+                        <div class="form-check">
+                            <input type="radio" value=@item.Value class="form-check-input filled-in" name="SelectedBatteryCapacity" id=@item.Value>
+                            <label class="form-check-label small text-uppercase card-link-secondary" for=@item.Value>@item.Text</label>
+                        </div>
+                    }
+                </div>
+            </div>
+            <hr/>
+            <div style="margin-bottom: 0">Ціна</div>
+            <div class="d-flex align-items-center mt-1 pb-0">
+                <div class="md-form md-outline my-0">
+                    <input id="from" type="number" name="MinPrice" class="form-control form-control-sm">
+                    <label class="small" for="from">Від</label>
+                </div>
+                <p class="px-2 mb-0 text-muted"> - </p>
+                <div class="md-form md-outline my-0">
+                    <input id="to" type="number" name="MaxPrice" class="form-control form-control-sm">
+                    <label class="small" for="to">До</label>
+                </div>
+            </div>
+            <hr/>
+            <div class="filter-group">
+                <div>
+                    <div style="margin-bottom: 0">Діагональ дисплея (в дюймах)</div>
+                    <a href="#" data-toggle="collapse" class="small" data-target="#collapse_screenSize" data-abc="true" aria-expanded="true" class="collapsed"> 
+                        (Показати / Приховати)<i class="icon-control fa fa-chevron-down"></i>
+                    </a>
+                </div>
+                <div class="filter-content collapse" id="collapse_screenSize" style="">
+                    @foreach (var item in Model.ScreenSizes)
+                    {
+                        <div class="form-check">
+                            <input type="radio" value=@item.Value class="form-check-input filled-in" name="SelectedScreenSize" id=@item.Value>
+                            <label class="form-check-label small text-uppercase card-link-secondary" for=@item.Value>@item.Text</label>
+                        </div>
+                    }
+                </div>
+            </div>
+            <hr/>
+            <div class="filter-group">
+                <div>
+                    <div style="margin-bottom: 0">Вага смартфону (в грамах)</div>
+                    <a href="#" data-toggle="collapse" class="small" data-target="#collapse_weight" data-abc="true" aria-expanded="true" class="collapsed"> 
+                        (Показати / Приховати)<i class="icon-control fa fa-chevron-down"></i>
+                    </a>
+                </div>
+                <div class="filter-content collapse" id="collapse_weight" style="">
+                    @foreach (var item in Model.Weights)
+                    {
+                        <div class="form-check">
+                            <input type="radio" value=@item.Value class="form-check-input filled-in" name="SelectedWeight" id=@item.Value>
+                            <label class="form-check-label small text-uppercase card-link-secondary" for=@item.Value>@item.Text</label>
+                        </div>
+                    }
+                </div>
+            </div>
+            <hr/>
+            <div style="margin-bottom: 0">Додаткові характеристики</div>
             <div class="form-check">
                 <input type="checkbox" class="form-check-input filled-in" name="HasNFC" asp-for="HasNFC" id="HasNFC">
                 <label class="form-check-label small text-uppercase card-link-secondary" for="HasNFC">NFC</label>
+            </div>
+            <div class="form-check">
+                <input type="checkbox" class="form-check-input filled-in" name="HasSdCardSlot" asp-for="HasSdCardSlot" id="HasSdCardSlot">
+                <label class="form-check-label small text-uppercase card-link-secondary" for="HasNFC">Слот SD-карти</label>
             </div>
         </section>
         <input type="submit" value="Шукати" class="btn btn-primary"/>
