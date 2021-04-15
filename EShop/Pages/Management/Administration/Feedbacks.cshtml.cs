@@ -51,12 +51,11 @@ namespace EShop.Pages.Management.Administration
 
         public async Task<IActionResult> OnPostIsReadAsync(Guid id)
         {
-            await using var context = _shopContext;
-            var feedback = await context.Feedbacks.FindAsync(id);
+            var feedback = await _shopContext.Feedbacks.FindAsync(id);
             if (feedback != null)
             {
                 feedback.IsRead = !feedback.IsRead;
-                await context.SaveChangesAsync();
+                await _shopContext.SaveChangesAsync();
                 StatusMessage = $"Відгук користувача {feedback.CustomerEmail} позначений {(!feedback.IsRead ? "непрочитаним" : "прочитаним")}";
             }
             else
