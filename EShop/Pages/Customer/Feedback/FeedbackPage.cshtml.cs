@@ -68,9 +68,8 @@ namespace EShop.Pages.Feedback
                 MessageHeader = Input.MessageHeader,
                 MessageText = Input.MessageText
             };
-            await using var context = _context;
-            await context.Feedbacks.AddAsync(Feedback);
-            await context.SaveChangesAsync();
+            await _context.Feedbacks.AddAsync(Feedback);
+            await _context.SaveChangesAsync();
             StatusMessage = "Дякуємо! Ваше звернення успішно збережене";
             return Page();
         }
