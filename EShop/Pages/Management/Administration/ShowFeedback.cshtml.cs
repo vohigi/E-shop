@@ -40,11 +40,10 @@ namespace EShop.Pages.Management.Administration
         {
             if (id == Guid.Empty) return Page();
             
-            await using var context = _shopContext;
-            var feedback = await context.Feedbacks.FindAsync(id);
+            var feedback = await _shopContext.Feedbacks.FindAsync(id);
             if (feedback == null) return Page();
             feedback.IsRead = !feedback.IsRead;
-            await context.SaveChangesAsync();
+            await _shopContext.SaveChangesAsync();
             return await OnGet(id);
         }
     }
