@@ -90,7 +90,16 @@ namespace EShop.Areas.Identity.Pages.Account
             returnUrl ??= Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+                var user = new ApplicationUser
+                {
+                    UserName = Input.Email, 
+                    Email = Input.Email, 
+                    AddressText = Input.Address,
+                    FirstName = Input.FirstName, 
+                    LastName = Input.LastName, 
+                    SecondName = Input.SecondName,
+                    PhoneNumber = Input.PhoneNumber
+                };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
